@@ -1,4 +1,89 @@
-body {
-  margin: 0;
-  font-family: 'Roboto';  
+:root{
+  --default-theme: #dc3445;
+}
+
+*{
+  padding: 0; margin: 0; box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+html{
+  background: #f9f9f9;
+}
+body{
+  overflow-x: hidden;
+  background: #f9f9f9;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+body, #root{
+  color: #333;
+}
+/*Modal que será apresentado*/
+.modal-content{
+    background: #fff;    
+    border-radius: 4px;
+}
+.modal-body{
+  padding: .5em 2.7em 1.4em 2.7em;
+  text-align: center;
+}
+.modal-header{
+  border-bottom: none;
+  display: flex;
+  justify-content: center;
+}
+.modal-footer{
+  border-top: none;  
+}
+.btn-close{
+  color: #fff !important;
+}
+.inputValid{
+    border: 0.5px solid #dc3545 !important;
+    outline: none !important;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--default-theme);
+  border-radius: 8px;
+}
+
+.containerSpinner{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
+
+.spinner{
+  width: 90px;
+  height: 90px;
+}
+
+.inputInvisible{
+  border: 1px solid #CED4DA;
+  border-radius: 5px;
+  height: 50px;
+  vertical-align: middle;  
+  box-sizing: border-box;  
+}
+
+.fit-img-25{
+  max-width: 100%;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  object-fit: cover;
 }
