@@ -7,6 +7,10 @@ export {Index, Login, SignUp};
 //---------------------------------------------------------------
 //---------------------Layouts Documents-------------------------
 import Navbar from '../layout/navbar/Navbar';
+import Form from '../layout/form/Form';
+import Input from '../layout/input/Input';
+import Button from '../layout/button/Button';
+import Select from '../layout/select/Select';
 
-export {Navbar}
+export {Navbar, Form, Input, Button, Select}
 //---------------------------------------------------------------
