@@ -8,7 +8,7 @@ import {Navbar} from './../../envs/elements';
 export default function Index(){
     return (
         <>
-           <Navbar _class="navbar-invisible" />
+           <Navbar _class="navbar-invisible"/>
             <div className={styles.background + " page-header header-filter"}>
                 <div className={styles.container + " container"}>
                     <div className="row">
@@ -17,6 +17,8 @@ export default function Index(){
                             <h4 className="title mb-4">{__VARIABLES__._institute_name_}</h4>
                             <h5 className="description">Faça já a sua inscrição!</h5>
                             <Link to={'/signup'} className="mt-4 btn btn-danger btn-lg">Fazer Inscrição</Link>
+                            &nbsp;&nbsp;
+                            <Link to={'/signup'} className="mt-4 btn btn-outline-warning btn-lg">Consulta</Link>
                         </div>
                     </div>
                 </div>

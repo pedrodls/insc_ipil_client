@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Navbar.module.css';
 import { Link } from 'react-router-dom';
-//import { FaBars } from 'react-icons/fa';
+import { FaBars } from 'react-icons/fa';
 import { Logo } from '../../envs/imgs';
 
 export default function Navbar({ _class = "navbar" }) {
@@ -20,16 +20,22 @@ export default function Navbar({ _class = "navbar" }) {
                             </div>
                         </Link>
                         <button id="menu-toggle" type="button" className={styles['navbar-toggle'] + " btn btn-danger"}>
-                            {/*<FaBars />*/}
+                            <FaBars />
                         </button>
                         {/**------------------------------Colapso------------------------------------- */}
                         <div className={styles.collapse + " " + styles['navbar-collapse']}>
                             <ul className="nav d-flex">
                                 <li>
-                                    <Link to={'/signup'} className="btn btn-primary">Inscrição</Link>
+                                    <Link to={'/signup'} className="btn btn-primary">Fazer Inscrição</Link>
                                 </li>
                                 <li>
-                                    &nbsp;&nbsp;<Link to={'/login'} className="btn btn-danger">Entrar</Link>
+                                    <Link to={'/search'} className="btn btn-primary">Consultar Inscrição</Link>
+                                </li>
+                                <li>
+                                    <Link to={'/search'} className="btn btn-primary">Contacte-nos</Link>
+                                </li>
+                                <li>
+                                    <Link to={'/login'} className="btn btn-danger">Entrar</Link>
                                 </li>
                             </ul>
                         </div>

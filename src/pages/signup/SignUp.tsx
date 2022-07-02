@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import {Navbar, Form, Input, Button, Select} from './../../envs/elements';
+import { useState } from 'react';
+import { Navbar, Form, Input, Select } from './../../envs/elements';
 import styles from './SignUp.module.css';
-//import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { useForm } from 'react-hook-form';
 import { Carousel } from 'react-bootstrap';
 
 export default function SignUp() {
@@ -9,7 +10,11 @@ export default function SignUp() {
     const [spinner, setSpinner] = useState<boolean>(false);
     const [index, setIndex] = useState<number>(0);
 
-    const handleSubmit = () => { }
+    //testando react-hook-form
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const onSubmit = (data: any) => console.log(data);
+
     const handleChange = () => { }
     const handleSelect = () => { }
     const handleFocus = () => { }
@@ -100,39 +105,32 @@ export default function SignUp() {
                                             </div>
                                         </div>
                                     </Carousel.Item>
-                                    {/*<Carousel.Item>
-                                    <div>
-                                    <Input validate={true} text="Nº do Bilhete" type="text" name="bi" placeholder="" _class="signup" handleEvent={handleChange} maxLength={14} />
-                                            <Input validate={true} text="Email do Professor" type="email" name="email" placeholder="" _class="signup" handleEvent={handleChange} />
-                                            <Input validate={true} text="Contacto do Professor" type="tel" name="telephone" placeholder="" _class="signup" handleEvent={handleChange} />
-
-                                            <Select text="Área de Formação" _class="signup" id="cmbAreaFormacao" _options={area} handle={handleSelect} />
-                                            <Select text="Curso" id="cmbCurso" _class="signup" _options={course} handle={handleSelect} />
-                                        </div>
-                                        <div>
-                                                <div className="text-center" style={{ width: '120px', height: '120px', borderRadius: '120px', border: '1px solid gainsboro', margin: '0 auto', marginBottom: '5px' }}>
-                                                    image != null && <img className="fit-img-120" src={preview} />
-                                                </div>
-                                                <button type="button" style={{ margin: '0 auto', marginBottom: '20px' }} className="d-block btn btn-primary" onClick={() => document.getElementById('avatar').click()}>
-                                                    <FaCamera title="Escolha de Foto" className="arrowBack" />
-                                                </button>                                               
-                                            </div>     
-                                    </Carousel.Item>*/}
+                                    <Carousel.Item>
+                                    </Carousel.Item>
                                 </Carousel>
 
                                 <nav className={`${styles.options} mt-4`}>
                                     <ul className="pagination">
                                         <li className={`page-item`} onClick={() => setIndex(index - 1)}>
-                                            <a className="page-link">{/*<FaArrowLeft />*/} Anterior</a>
+                                            <a className="page-link"><FaArrowLeft /> Anterior</a>
                                         </li>
                                         <li className={`page-item`} onClick={() => setIndex(index + 1)}>
                                             <a className="page-link">
-                                                <span>Próximo {/*<FaArrowRight />*/}</span>
+                                                <span>Próximo <FaArrowRight /></span>
                                             </a>
                                         </li>
                                     </ul>
                                 </nav>
                             </Form>
+
+                            Seccção de Teste o React-Hook-Form
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <input type="text" className="form-control" {...register('fullName', {required: true, pattern: /^\w$/})} />
+                                <input type="text" className="form-control" {...register('bi', {required: true, minLength: 14})} />
+                                <input type="submit" className="btn btn-danger" />
+                                {errors.fullName && <h1 className="text-dark">Nome Errado</h1>}
+                                {errors.bi && <span>Bilhete</span>}
+                            </form>
                         </div>
                     </div>
                 </div>
