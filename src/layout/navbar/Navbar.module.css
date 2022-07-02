@@ -16,7 +16,7 @@
     position: fixed;
     z-index: 3;
     width: 100%;
-    background-color: #dc3545;
+    background-color: var(--default-theme);
     box-shadow: 0 0 0.625rem 0 rgb(21 58 160 / 10%);
 }
 .logo{
@@ -28,12 +28,16 @@
 }
 
 .navbar-toggle {
-    display: none;
+    display: none !important;
+}
+
+.collapse ul li{
+    margin: auto 5px;
 }
 
 @media (max-width: 991px) {
     .navbar-toggle {
-        display: block;
+        display: block !important;
     }
     .navbar .navbar-collapse.collapse,
     .navbar .navbar-collapse.collapsing,
