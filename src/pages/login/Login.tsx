@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../../layout/navbar/Navbar';
+import Navbar from '../../components/navbar/Navbar';
 import styles from './Login.module.css';
 /*import { FaKey, FaEnvelope } from 'react-icons/fa';*/
-import Form from './../../layout/form/Form';
-import Input from './../../layout/input/Input';
-import Button from './../../layout/button/Button';
+import Form from '../../components/form/Form';
+import Input from '../../components/input/Input';
+import Button from '../../components/button/Button';
 
 export default function Login() {
     const [error, setError] = useState({ show: false, message: '' });

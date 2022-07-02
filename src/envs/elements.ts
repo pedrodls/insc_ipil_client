@@ -6,11 +6,11 @@ import SignUp from '../pages/signup/SignUp';
 export {Index, Login, SignUp};
 //---------------------------------------------------------------
 //---------------------Layouts Documents-------------------------
-import Navbar from '../layout/navbar/Navbar';
-import Form from '../layout/form/Form';
-import Input from '../layout/input/Input';
-import Button from '../layout/button/Button';
-import Select from '../layout/select/Select';
+import Navbar from '../components/navbar/Navbar';
+import Form from '../components/form/Form';
+import Input from '../components/input/Input';
+import Button from '../components/button/Button';
+import Select from '../components/select/Select';
 
 export {Navbar, Form, Input, Button, Select}
 //---------------------------------------------------------------
