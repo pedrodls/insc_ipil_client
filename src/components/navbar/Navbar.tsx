@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Navbar.module.css';
+import styles from './Navbar.module.scss';
 import { Link } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { Logo } from '../../envs/imgs';

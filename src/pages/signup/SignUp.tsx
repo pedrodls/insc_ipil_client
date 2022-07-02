@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Navbar, Form, Input, Select } from './../../envs/elements';
-import styles from './SignUp.module.css';
+import styles from './SignUp.module.scss';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { Carousel } from 'react-bootstrap';

@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import Navbar from '../../components/navbar/Navbar';
-import styles from './Login.module.css';
+import styles from './Login.module.scss';
 import { FaKey, FaEnvelope } from 'react-icons/fa';
 import Form from '../../components/form/Form';
 import Input from '../../components/input/Input';

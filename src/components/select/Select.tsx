@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Select.module.css';
+import styles from './Select.module.scss';
 
 export default function Select({ defaultSelect = 0, text = "", id = "", _options = [], handle = () => { }, _class = "" }: any) {
     return (
