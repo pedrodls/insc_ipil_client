@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styles from './Button.module.scss';
 
 export default function Button({ type="button", text="", _class="", handle=()=>{}, disabled=false }: any) { /** */
