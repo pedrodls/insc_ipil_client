@@ -1,15 +1,19 @@
-import React from 'react';
 import styles from './index.module.scss';
 
 import { Link } from 'react-router-dom';
 import __VARIABLES__ from './../../envs/variables';
-import {Navbar} from './../../envs/elements';
+import { Navbar } from './../../envs/elements';
+import { FaArrowUp } from 'react-icons/fa';
 
-export default function Index(){
+export default function Index() {
     return (
         <>
            <Navbar _class="navbar-invisible"/>
            
+            <div className={`${styles.buttonUp}`}>
+                <FaArrowUp/>
+            </div>
+            <Navbar />
             <div className={styles.background + " page-header header-filter"}>
                 <div className={styles.container + " container"}>
                     <div className="row">
@@ -24,7 +28,7 @@ export default function Index(){
                     </div>
                 </div>
             </div>
-            <div style={{backgroundColor: '#fff', height: '100vh'}}>
+            <div style={{ backgroundColor: '#fff', height: '40vh' }}>
 
             </div>
         </>
