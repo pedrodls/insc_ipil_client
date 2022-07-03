@@ -9,6 +9,7 @@ export default function Index(){
     return (
         <>
            <Navbar _class="navbar-invisible"/>
+           
             <div className={styles.background + " page-header header-filter"}>
                 <div className={styles.container + " container"}>
                     <div className="row">

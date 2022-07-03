@@ -1,11 +1,13 @@
+import { ChakraProvider } from '@chakra-ui/react'
 import { useState } from 'react'
 import Routes from './Routes';
 
-function App() {
+export default function App() {
 
   return (
-    <Routes />
+
+    <ChakraProvider>
+      <Routes />
+    </ChakraProvider>
   )
 }
-
-export default App
