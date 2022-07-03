@@ -1,4 +1,4 @@
-import { FaPhone, FaEnvelope, FaMap, FaFacebook, FaWhatsapp, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaMap, FaFacebook, FaWhatsapp, FaInstagram, FaTwitter, FaGlobe } from 'react-icons/fa';
 import styles from './Footer.module.scss';
 import __VARIABLES__ from '../../envs/variables';
 export default function Footer() {
@@ -6,22 +6,24 @@ export default function Footer() {
         <footer className={styles.footer}>
             <div className={`${styles.links} container`}>
                 <div className="row">
-                    <div className="col-lg-4 col-md-6 col-xs-12">
+                    <div className={`${styles.contact} col-lg-4 col-md-6 col-xs-12`}>
                         <h1>Contactos</h1>
                         <ul>
-                            <li><a><FaPhone /> {__VARIABLES__._institute_phone_}</a></li>
-                            <li><a><FaEnvelope /> {__VARIABLES__._institute_email_}</a></li>
-                            <li><a><FaMap /> {__VARIABLES__._institute_address_}</a></li>
+                            <li><a className="d-flex align-items-center"><FaPhone />&nbsp;&nbsp;{__VARIABLES__._institute_phone_}</a></li>
+                            <li><a className="d-flex align-items-center"><FaEnvelope />&nbsp;&nbsp;{__VARIABLES__._institute_email_}</a></li>
+                            <li><a className="d-flex align-items-center"><FaMap />&nbsp;&nbsp;{__VARIABLES__._institute_address_}</a></li>
                         </ul>
                     </div>
-                    <div className="col-lg-4 col-md-6 col-xs-12">
+                    <div className={`${styles.portal} col-lg-4 col-md-6 col-xs-12`}>
                         <h1>Portais Disponíveis</h1>
                         <ul>
-                            <li><a><FaPhone /> 999999999</a></li>
-                            <li><a><FaMap /> 999999999</a></li>
+                            <li><a className="d-flex align-items-center"><FaGlobe />&nbsp;&nbsp;Site Informativo</a></li>
+                            <li><a className="d-flex align-items-center"><FaGlobe />&nbsp;&nbsp;Gestão de Notas (NotaIPIL)</a></li>
+                            <li><a className="d-flex align-items-center"><FaGlobe />&nbsp;&nbsp;Gestão de Inscrições (INSCIPIL)</a></li>
+                            <li><a className="d-flex align-items-center"><FaGlobe />&nbsp;&nbsp;Gestão de Matrículas</a></li>
                         </ul>
                     </div>
-                    <div className="col-lg-4 col-md-6 col-xs-12">
+                    <div className={`${styles.socialMedia} col-lg-4 col-md-12 col-xs-12`}>
                         <h1>Redes Sociais</h1>
                         <ul className="d-flex">
                             <li className={`${styles.icons}`}><a><FaFacebook /></a></li>
