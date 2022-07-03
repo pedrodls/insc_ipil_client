@@ -7,10 +7,11 @@ export {Index, Login, SignUp};
 //---------------------------------------------------------------
 //---------------------Layouts Documents-------------------------
 import Navbar from '../components/navbar/Navbar';
+import Footer from '../components/footer/Footer';
 import Form from '../components/form/Form';
 import Input from '../components/input/Input';
 import Button from '../components/button/Button';
 import Select from '../components/select/Select';
 
-export {Navbar, Form, Input, Button, Select}
+export {Navbar, Form, Input, Button, Select, Footer}
 //---------------------------------------------------------------
