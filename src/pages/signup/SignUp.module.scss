@@ -1,31 +1,22 @@
-.background {
-    height: 100vh;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+.container-signup{
+    background-color: rgba(250, 250, 250, 0.897);
 }
-.container{
-    padding-top: 20vh;
-    color: #fff;
-    z-index: 2;
-    position: relative;
+.content-form{
+    margin-top: 20vh !important;
 }
 .options ul{
     display: flex;
     justify-content: space-between;
-}
-.options ul li a{
-    background: #dc3445 !important;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    color: #fff !important;
-    border:rgba(31, 39, 52, 0.7);
-    padding: 8px 15px;
-}
-.options ul li a:hover{
-    background: #bb2d3b !important;
-    cursor: pointer;
-    border:#bb2d3b;
-}
+    ul li a{
+        background: #dc3445 !important;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+        color: #fff !important;
+        border:rgba(31, 39, 52, 0.7);
+        padding: 8px 15px;
+    }
+    ul li a:hover{
+        background: #bb2d3b !important;
+        cursor: pointer;
+        border:#bb2d3b;
+    }
+}  
