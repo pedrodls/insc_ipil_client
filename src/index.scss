@@ -1,5 +1,6 @@
 :root{
   --default-theme: #dc3445;
+  --default-orange: orange;
 }
 
 *{
@@ -18,26 +19,6 @@ body{
 }
 body, #root{
   color: #333;
-}
-/*Modal que será apresentado*/
-.modal-content{
-    background: #fff;    
-    border-radius: 4px;
-}
-.modal-body{
-  padding: .5em 2.7em 1.4em 2.7em;
-  text-align: center;
-}
-.modal-header{
-  border-bottom: none;
-  display: flex;
-  justify-content: center;
-}
-.modal-footer{
-  border-top: none;  
-}
-.btn-close{
-  color: #fff !important;
 }
 .inputValid{
     border: 0.5px solid #dc3545 !important;
@@ -66,7 +47,6 @@ body, #root{
   justify-content: center;
   align-items: center;
 } 
-
 .spinner{
   width: 90px;
   height: 90px;
@@ -79,7 +59,14 @@ body, #root{
   vertical-align: middle;  
   box-sizing: border-box;  
 }
-
+.inputShadow{
+  border: none;
+  box-shadow: 0 2px 28px 0 rgb(0 0 0 / 9%);
+  border-radius: 5px;
+  height: 50px;
+  vertical-align: middle;  
+  box-sizing: border-box;  
+}
 .fit-img-25{
   max-width: 100%;
   width: 25px;
