@@ -8,7 +8,10 @@ import AttachPayment from "../pages/attach-payment/AttachPayment";
 import Contact from "../pages/contact/Contact";
 import Home from "../pages/home/Home";
 
-export {Index, Login, SignUp, Information, AttachPayment, Contact, Home};
+
+//ADMIN DASHBOARD
+
+import Dashboard from "../pages/Admin/Dashboard"
 //---------------------------------------------------------------
 //---------------------Layouts Documents-------------------------
 import Navbar from '../components/navbar/Navbar';
@@ -17,6 +20,8 @@ import Form from '../components/form/Form';
 import Input from '../components/input/Input';
 import Button from '../components/button/Button';
 import Select from '../components/select/Select';
+
+export {Index, Login, SignUp, Information, AttachPayment, Contact, Home, Dashboard};
 
 
 export {Navbar, Form, Input, Button, Select, Footer}
