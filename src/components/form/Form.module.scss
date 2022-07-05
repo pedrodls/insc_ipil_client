@@ -1,32 +1,35 @@
-.sign_in{
+.sign_in {
     display: flex;
     justify-content: flex-start;
     width: 100%;
     max-width: 24em;
 }
-.sign_up{
+
+.sign_up {
     color: #333;
     display: flex;
     flex-direction: column;
-    padding: 4em 2em;    
+    padding: 4em 2em;
     width: 40em;
     background-color: #FFF;
-    box-sizing: border-box;    
+    box-sizing: border-box;
     box-shadow: 0 0 0.625rem 0 rgb(21 58 160 / 10%);
     border-radius: 5px;
 }
-.login{
+
+.login {
     display: flex;
     flex-direction: column;
-    padding: 4em 2em;    
-    width: 28em;
+    padding: 4em 2em;
+    width: 25em;
     background-color: #FFF;
-    box-sizing: border-box;    
+    box-sizing: border-box;
     box-shadow: 0 0 0.625rem 0 rgb(21 58 160 / 10%);
     border-radius: 5px;
-}
-.login h1{
-    text-align: center;
-    font-size: 1.5em;
-    margin: 1em auto 10% auto;
+
+    h1 {
+        text-align: center;
+        font-size: 1.5em;
+        margin: .1em auto 10% auto;
+    }
 }
