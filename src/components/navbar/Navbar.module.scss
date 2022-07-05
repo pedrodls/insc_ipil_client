@@ -1,27 +1,63 @@
-.navbar .navbar-collapse {
-    border-top: none;
-    box-shadow: none;
-}
-.navbar-invisible{
-    padding: 5px 0;
+.navbar {
+    padding: 15px 0;
     position: fixed;
     z-index: 3;
     width: 100%;
-    background-color: transparent;
     background-color: rgba(0 0 0 / 10%);
     box-shadow: 0 0 0.625rem 0 rgb(21 58 160 / 10%);
+    transition: .3s;
+    .navbar-collapse {
+        border-top: none;
+        box-shadow: none;
+
+        ul {
+            li {
+
+                color: rgba(255, 255, 255, 0.746);
+                font-weight: 100;
+            }
+            li:hover{
+                cursor: pointer;
+                color: #fff;
+
+            }
+        }
+    }
+
+
 }
-.navbar{
+
+.navbar-colored {
     padding: 15px 0;
     position: fixed;
     z-index: 3;
     width: 100%;
     background-color: #fff;
     box-shadow: 0 0 0.625rem 0 rgb(21 58 160 / 10%);
+    transition: .3s;
+
+    .navbar-collapse {
+        border-top: none;
+        box-shadow: none;
+
+        ul {
+            li {
+
+                color: rgb(99, 52, 44);
+                font-weight: 100;
+            }
+            li:hover{
+                cursor: pointer;
+                color: rgb(122, 54, 42);
+
+            }
+        }
+    }
 }
-.logo{
+
+.logo {
     max-width: 100%;
-    width: 60px;    
+    width: 60px;
     height: 60px;
     border-radius: 110px;
     object-fit: cover;
@@ -31,7 +67,7 @@
     display: none !important;
 }
 
-.collapse ul li{
+.collapse ul li {
     margin: auto 5px;
 }
 
@@ -39,10 +75,16 @@
     .navbar-toggle {
         display: block !important;
     }
-    .navbar .navbar-collapse.collapse,
-    .navbar .navbar-collapse.collapsing,
-    .navbar-invisible .navbar-collapse.collapse {
-        display: none !important;
+
+    .navbar,
+    .navbar-colored {
+
+        .navbar-collapse.collapse,
+        .navbar-collapse.collapsing,
+        .navbar-invisible .navbar-collapse.collapse {
+            display: none !important;
+        }
     }
-    
+
+
 }

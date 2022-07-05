@@ -1,43 +1,79 @@
 import styles from './Navbar.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { Logo } from '../../envs/imgs';
+import Sidemenu from '../menu/Sidemenu';
+import { Button } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import __VARIABLES__ from '../../envs/variables';
 
-export default function Navbar({ _class = "navbar" }) {
+export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
+
+    const navigate = useNavigate();
+
+    const [scrollTop, setScrollTop] = useState<number>(0);
+
+    const [scrolling, setScrolling] = useState(false);
+
+    useEffect(() => {
+
+        const onScroll = (e: any) => {
+
+            setScrollTop(e.target.documentElement.scrollTop);
+
+            if (scrollTop > 10)
+                setScrolling(true);
+            else
+                setScrolling(false);
+
+        };
+
+        window.addEventListener("scroll", onScroll);
+
+        return () => window.removeEventListener("scroll", onScroll);
+
+    }, [scrollTop]);
+
     return (
-        <>
-
-            <nav className={styles[_class]}>
+        <>            
+            <nav className={styles[(!scrolling && !isSignUp) ? _class : 'navbar-colored']}>
                 <div className="container-fluid">
                     {/**------------------------------Menu------------------------------------- */}
                     <div className="navbar-header d-flex justify-content-between align-items-center">
                         <Link to={'/'}>
-                            <div className="logo-container">
-                                <div className="logo">
-                                    <img className={styles.logo} src={Logo} alt="Logotipo" />
+                            <div className="container">
+                                <div className="row align-items-center">
+                                    <div className="col-5">
+                                        <div className="sidemenu">
+                                            <Sidemenu />
+                                        </div>
+                                    </div>
+                                    <div className="col d-flex justify-content-center">
+                                        <div className="logo">
+                                            <img className={styles.logo} src={Logo} alt="Logotipo" onClick={() => navigate('/')} />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </Link>
-                        <button id="menu-toggle" type="button" className={styles['navbar-toggle'] + " btn btn-danger"}>
-                            <FaBars />
-                        </button>
                         {/**------------------------------Colapso------------------------------------- */}
-                        <div className={styles.collapse + " " + styles['navbar-collapse']}>
-                            <ul className="nav d-flex">
-                                <li>
-                                    <Link to={'/signup'} className="btn btn-primary">Fazer Inscrição</Link>
+                        < div className={styles.collapse + " " + styles['navbar-collapse']}>
+                            <ul className="nav d-flex justify-content-end">
+                                <li className='nav-item me-5' onClick={() => navigate('/')}>
+                                    Inicio
                                 </li>
-                                <li>
-                                    <Link to={'/search'} className="btn btn-primary">Consultar Inscrição</Link>
+                                <li className='nav-item me-5' onClick={() => navigate('/informations')}>
+                                    Informações
                                 </li>
-                                <li>
-                                    <Link to={'/search'} className="btn btn-primary">Contacte-nos</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/login'} className="btn btn-danger">Entrar</Link>
+                                <li className='nav-item' onClick={() => navigate('/contacts')}>
+                                    Contactar
                                 </li>
                             </ul>
                         </div>
+                        <Button onClick={() => navigate('/login')} className={'border-0 me-3'} colorScheme={__VARIABLES__._orange_default_btn_}>
+                            Entrar
+                        </Button>
+                        
                     </div>
                 </div>
             </nav>
