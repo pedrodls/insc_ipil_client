@@ -2,11 +2,7 @@ import  { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import styles from './Login.module.scss';
 import { FaKey, FaEnvelope } from 'react-icons/fa';
-import Navbar from '../../components/navbar/Navbar';
-import Form from '../../components/form/Form';
-import Input from '../../components/input/Input';
-import Button from '../../components/button/Button';
-import Footer from '../../components/footer/Footer';
+import {Form, Input, Button, Footer} from './../../envs/elements';
 
 export default function Login() {    
     const [error, setError] = useState({ show: false, message: '' });

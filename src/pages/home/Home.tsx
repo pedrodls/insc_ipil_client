@@ -1,9 +1,9 @@
 import styles from './Home.module.scss';
 
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import __VARIABLES__ from '../../envs/variables';
 import { FaArrowUp } from 'react-icons/fa';
-import { Button, ButtonGroup, Heading } from '@chakra-ui/react';
+import { Button, Heading } from '@chakra-ui/react';
 
 export default function Home() {
     return (
