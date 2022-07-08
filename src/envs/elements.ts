@@ -10,20 +10,24 @@ import Home from "../pages/home/Home";
 
 
 //ADMIN DASHBOARD
-
 import Dashboard from "../pages/Admin/Dashboard"
 //---------------------------------------------------------------
-//---------------------Layouts Documents-------------------------
+
+//Layouts Documents
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
 import Form from '../components/form/Form';
 import Input from '../components/input/Input';
+import {InputDate} from '../components/input/Input';
+import {InputFile} from '../components/input/Input';
 import Button from '../components/button/Button';
 import Select from '../components/select/Select';
+import {CardSignUp} from '../components/card/Card';
 
-export {Index, Login, SignUp, Information, AttachPayment, Contact, Home, Dashboard};
 
-
-export {Navbar, Form, Input, Button, Select, Footer}
 //---------------------------------------------------------------
+
+export {Index, Login, SignUp, Information, AttachPayment, Contact, Home};
+export {Dashboard};
+export {Navbar, Form, Input, InputDate, InputFile, Button, Select, Footer, CardSignUp}
 
