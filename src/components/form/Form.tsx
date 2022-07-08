@@ -1,13 +1,13 @@
 import styles from './Form.module.scss';
 
-export default function Form({ children, _class=""} : any) { /** */
+export default function Form({ children, _class="", handleSubmitYup, onSubmitHandlerYup, useYup = false} : any) { /** */
 
     function submit(e: any) {
         e.preventDefault();
     }
 
     return (
-        <form onSubmit={submit} className={styles[_class]}>
+        <form onSubmit={useYup ? handleSubmitYup(onSubmitHandlerYup) : submit} className={styles[_class]}>
             {children}
         </form>
     )
