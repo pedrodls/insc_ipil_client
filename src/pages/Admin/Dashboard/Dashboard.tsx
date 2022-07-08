@@ -124,6 +124,7 @@ function DashboardContent() {
             <Typography sx={{ml: "1rem"}}>Elisio Mualumene</Typography>
           </Toolbar>
         </AppBar>
+        
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
@@ -144,6 +145,7 @@ function DashboardContent() {
             {secondaryListItems}
           </List>
         </Drawer>
+
         <Box
           component="main"
           sx={{

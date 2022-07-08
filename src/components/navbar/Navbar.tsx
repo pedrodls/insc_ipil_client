@@ -6,6 +6,7 @@ import Sidemenu from '../menu/Sidemenu';
 import { Button } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import __VARIABLES__ from '../../envs/variables';
+import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
 
@@ -64,6 +65,9 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
                                 </li>
                                 <li className='nav-item me-5' onClick={() => navigate('/informations')}>
                                     Informações
+                                </li>
+                                <li className='nav-item me-5' onClick={() => navigate('/informations')}>
+                                    Validar Inscrição
                                 </li>
                                 <li className='nav-item' onClick={() => navigate('/contacts')}>
                                     Contactar
