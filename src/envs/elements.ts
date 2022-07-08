@@ -12,6 +12,7 @@ import Home from "../pages/home/Home";
 //ADMIN DASHBOARD
 
 import Dashboard from "../pages/Admin/Dashboard/Dashboard"
+import UserAccount from "../pages/Admin/Users/UserAccount"
 //---------------------------------------------------------------
 //---------------------Layouts Documents-------------------------
 import Navbar from '../components/navbar/Navbar';
@@ -21,7 +22,7 @@ import Input from '../components/input/Input';
 import Button from '../components/button/Button';
 import Select from '../components/select/Select';
 
-export {Index, Login, SignUp, Information, AttachPayment, Contact, Home, Dashboard};
+export {Index, Login, SignUp, Information, AttachPayment, Contact, Home, Dashboard, UserAccount};
 
 
 export {Navbar, Form, Input, Button, Select, Footer}

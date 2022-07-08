@@ -6,15 +6,18 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import {Link} from "react-router-dom"
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItemButton>
+    <Link to="/admin/dashboard">
+      <ListItemButton>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" />
+      </ListItemButton>
+    </Link>
 
     <ListItemButton>
       <ListItemIcon>
@@ -54,12 +57,14 @@ export const secondaryListItems = (
       <ListItemText primary="Perfil" />
     </ListItemButton>
 
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Criar Usuários" />
-    </ListItemButton>
+    <Link to="/admin/new_account">
+      <ListItemButton>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Criar Usuários" />
+      </ListItemButton>
+    </Link>
 
     <ListItemButton>
       <ListItemIcon>
