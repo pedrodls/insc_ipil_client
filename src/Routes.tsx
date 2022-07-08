@@ -1,7 +1,5 @@
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { Index, Login, SignUp, Home, Information, AttachPayment, Contact, Dashboard } from './envs/elements';
-
+import { Index, Login, SignUp, Home, Information, AttachPayment, Contact,Dashboard} from './envs/elements'
 
 function AppRoutes() {
 
@@ -18,7 +16,6 @@ function AppRoutes() {
 
         <Route path="/signup" element={<SignUp />} />
 
-        {/* ADMIN DASHBOARD */}
         <Route path="/admin/dashboard" element={<Dashboard />} />
         
       </Routes>
