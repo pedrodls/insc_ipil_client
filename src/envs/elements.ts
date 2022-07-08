@@ -11,7 +11,7 @@ import Home from "../pages/home/Home";
 
 //ADMIN DASHBOARD
 
-import Dashboard from "../pages/Admin/Dashboard"
+import Dashboard from "../pages/Admin/Dashboard/Dashboard"
 //---------------------------------------------------------------
 //---------------------Layouts Documents-------------------------
 import Navbar from '../components/navbar/Navbar';
