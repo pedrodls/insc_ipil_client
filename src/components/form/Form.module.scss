@@ -10,7 +10,8 @@
     display: flex;
     flex-direction: column;
     padding: 4em 2em;
-    width: 40em;
+    max-width: 35em;
+    width: 100%;
     background-color: #FFF;
     box-sizing: border-box;
     box-shadow: 0 0 0.625rem 0 rgb(21 58 160 / 10%);
@@ -21,7 +22,8 @@
     display: flex;
     flex-direction: column;
     padding: 4em 2em;
-    width: 25em;
+    max-width: 25em;
+    width: 100%;
     background-color: #FFF;
     box-sizing: border-box;
     box-shadow: 0 0 0.625rem 0 rgb(21 58 160 / 10%);
@@ -32,4 +34,10 @@
         font-size: 1.5em;
         margin: .1em auto 10% auto;
     }
+}
+
+@media (min-width: 992px) {
+    .sign_up {        
+        max-width: 60em;     
+    }   
 }

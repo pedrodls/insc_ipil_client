@@ -35,7 +35,7 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
     }, [scrollTop]);
 
     return (
-        <>            
+        <>
             <nav className={styles[(!scrolling && !isSignUp) ? _class : 'navbar-colored']}>
                 <div className="container-fluid">
                     {/**------------------------------Menu------------------------------------- */}
@@ -73,7 +73,6 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
                         <Button onClick={() => navigate('/login')} className={'border-0 me-3'} colorScheme={__VARIABLES__._orange_default_btn_}>
                             Entrar
                         </Button>
-                        
                     </div>
                 </div>
             </nav>
