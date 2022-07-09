@@ -24,12 +24,9 @@ import {InputDate} from '../components/input/Input';
 import {InputFile} from '../components/input/Input';
 import Button from '../components/button/Button';
 import Select from '../components/select/Select';
-<<<<<<< HEAD
 
-export {Index, Login, SignUp, Information, AttachPayment, Contact, Home, Dashboard, UserAccount};
-=======
+export { UserAccount};
 import {CardSignUp} from '../components/card/Card';
->>>>>>> 546645bdd4cd30173a76e0f24eb95bd20b510160
 
 
 //---------------------------------------------------------------
