@@ -12,18 +12,29 @@ import Home from "../pages/home/Home";
 //ADMIN DASHBOARD
 
 import Dashboard from "../pages/Admin/Dashboard/Dashboard"
+import UserAccount from "../pages/Admin/Users/UserAccount"
 //---------------------------------------------------------------
-//---------------------Layouts Documents-------------------------
+
+//Layouts Documents
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
 import Form from '../components/form/Form';
 import Input from '../components/input/Input';
+import {InputDate} from '../components/input/Input';
+import {InputFile} from '../components/input/Input';
 import Button from '../components/button/Button';
 import Select from '../components/select/Select';
+<<<<<<< HEAD
 
-export {Index, Login, SignUp, Information, AttachPayment, Contact, Home, Dashboard};
+export {Index, Login, SignUp, Information, AttachPayment, Contact, Home, Dashboard, UserAccount};
+=======
+import {CardSignUp} from '../components/card/Card';
+>>>>>>> 546645bdd4cd30173a76e0f24eb95bd20b510160
 
 
-export {Navbar, Form, Input, Button, Select, Footer}
 //---------------------------------------------------------------
+
+export {Index, Login, SignUp, Information, AttachPayment, Contact, Home};
+export {Dashboard};
+export {Navbar, Form, Input, InputDate, InputFile, Button, Select, Footer, CardSignUp}
 

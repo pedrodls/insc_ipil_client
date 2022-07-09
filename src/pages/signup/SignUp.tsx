@@ -1,57 +1,74 @@
 import { useState } from 'react';
-import { Navbar, Form, Input, Select, Footer, Button } from './../../envs/elements';
+import { Navbar, InputFile, InputDate, Input, Select, Footer, CardSignUp } from './../../envs/elements';
+import { ERROR_STATE } from './../../envs/states';
 import styles from './SignUp.module.scss';
 import { FaArrowLeft, FaArrowRight, FaBoxOpen } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { Carousel } from 'react-bootstrap';
-import { schemaStage1 } from './../../envs/schemas';
+import { schemaStage1, schemaStage2, schemaStage3 } from './../../envs/schemas';
+import { Alert, AlertIcon, Stack } from '@chakra-ui/react';
+import moment from 'moment';
 
-//schema definition
-const schemaState = [yup.object().shape({
-    fatherBI: yup.string().required(),
-    fatherFullName: yup.string().required(),
-    fatherCity: yup.string().required(),
-    fatherDistrict: yup.string().required(),
-    email: yup.string().email(),
-    telephone1: yup.string().min(9).max(9).required(),
-    telephone2: yup.string().min(9).max(9).required()
-})
-];
-
-//await schema.isValid(42);
-
-/*const person = {
-    age: -17,
-    name: 'Bruno Fortunato Domingos Mateus'
+function ButtonChoose(index: number, setIndex: any) {
+    return (<>
+        <nav className={`${styles.options} mt-4`}>
+            <ul className="pagination">
+                <li className={`page-item`} onClick={() => { window.scrollTo(0, 0); setIndex(index - 1) }}>
+                    <button className="page-link text-center">
+                        <div className="d-flex flex-column align-items-center">Anterior<FaArrowLeft /></div>
+                    </button>
+                </li>
+                <li className={`page-item text-center`} >
+                    <button type="submit" className="page-link text-center">
+                        <div className="d-flex flex-column align-items-center">Próximo<FaArrowRight /></div>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </>)
 }
 
-const schema1 = yup.object().shape({
-    age: yup.number().positive().integer().required(),
-    name: yup.string().required()
-})
-
-console.log(schema1);
-//schema1.validate(person).then(value => console.log(value)).catch(err => console.log(err));
-*/
-
 export default function SignUp() {
-    const [error, setError] = useState<object>({ show: false, message: '', color: '' });
+    //---------------------Declaration Session---------------------------------------------------------------
     const [spinner, setSpinner] = useState<boolean>(false);
-    const [index, setIndex] = useState<number>(0);
-
-    //------------------upload elements------------------
-    const [errorUpload, setErrorUpload] = useState({ state: false, color: '', message: '' })
+    const [index, setIndex] = useState<number>(0); //controlador do estado do formulário    
+    const [error, setError] = useState(new ERROR_STATE()); //controlo de erro
+    const [errorUpload, setErrorUpload] = useState(new ERROR_STATE()); //upload elements
+    const [signup, setSignUp] = useState({}); //varíavel responsável por guardar os dados
 
     //testando react-hook-form
-    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schemaStage1) });
+    //{ resolver: yupResolver(schemaStage1) }
+    const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({ resolver: yupResolver(schemaStage1) });
+    const { register: register2, handleSubmit: handleSubmit2, formState: { errors: errors2 } } = useForm({ resolver: yupResolver(schemaStage2) });
+    const { register: register3, handleSubmit: handleSubmit3, formState: { errors: errors3 } } = useForm({ resolver: yupResolver(schemaStage3) });
 
-    const onSubmit = (data: any) => console.log(data);
+    //----------------------Function Session----------------------------------------
+    const onSubmitHandler = (data: any) => {
+        console.log(data);
+        if (index === 1 && data.telephone2.length !== 0 && !(/^[0-9]{9,9}$/).test(data.telephone2)) {
+            setError({ show: true, color: '', message: 'Campo Contacto 2 no Formato Incorrecto' });
+            return false;
+        }
+        window.scrollTo(0, 0);
+        if (index === 1) {
+            setIndex(index + 1);
+            Object.assign(signup, data);
+        } else if (index === 2) {
+            setIndex(index + 1);
+            Object.assign(signup, data);
+        }
 
-    const handleChange = () => { }
+        console.log(signup);
+
+        //reset();
+    }
+
+    const handleChange = () => { setError({ show: false, color: '', message: '' }) } //método executado quando input muda
+    const handleClick = () => { //método executado quando clicado no Próximo                    
+    }
     const handleSelect = () => { }
-    const handleFocus = () => { }
+
     const handleFile = async (e: any) => {
         setSpinner(true);
         try {
@@ -66,7 +83,7 @@ export default function SignUp() {
             <section className={`${styles['container-signup']} container`}>
                 <div className="row">
                     <div className={`${styles['content-form']} d-flex justify-content-center mb-4`}>
-                        <Form _class="sign_up">
+                        <CardSignUp>
                             {index !== 0 && <>
                                 <nav className={styles.pagination}>
                                     {index === 1 && <h1 className="text-center">Dados do Encarregado de Educação</h1>}
@@ -83,7 +100,8 @@ export default function SignUp() {
                                 <hr className="row-global" />
                             </>}
                             <Carousel activeIndex={index} interval={300} indicators={false} slide={false} fade controls={false}>
-                                <Carousel.Item>
+                                <Carousel.Item>                                
+
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h1>Áreas de Formação</h1>
                                         <div className="d-flex justify-content-end" style={{ width: '40%' }}>
@@ -133,56 +151,76 @@ export default function SignUp() {
                                 </Carousel.Item>
                                 {/*------------------*Dados do Encarregado de Educação-----*/}
                                 <Carousel.Item>
-                                    <div className="row">
+                                    <form onSubmit={handleSubmit1(onSubmitHandler)} className="row">
+
+                                        {/*errors.email?.message*/}
+
                                         <div className="col-md-12 col-lg-6">
-                                            <Input validate={true} text={"Nº do Bilhete"} id="bilheteAluno" type="text" name="bilhete" placeholder="" _class="signup" handleEvent={handleChange} maxLength={14} />
-                                            <Input validate={true} text="Nome do Encarregado de Educação" type="text" name="fullName" placeholder="" _class="signup" handleEvent={handleChange} />
-                                            <Select text="Parentesto" id="cmbSexo" _options={[{ id: 'Mãe', name: 'Mãe' }, { id: 'Pai', name: 'Pai' }]} handle={handleSelect} _class="signup" />
+                                            <Input registerYup={register1} text="Nº do Bilhete" id="educatorBI" type="text" name="educatorBI" placeholder="" _class="signup" handleEvent={handleChange} maxLength={14} />
+                                            <Input registerYup={register1} text="Nome Completo" type="text" name="educatorFullName" placeholder="" _class="signup" handleEvent={handleChange} />
+                                            <Select registerYup={register1} text="Parentesto" id="kinship" _options={[{ id: 'Mãe', name: 'Mãe' }, { id: 'Pai', name: 'Pai' }]} handle={handleSelect} _class="signup" />
                                         </div>
                                         <div className="col-md-12 col-lg-6">
-                                            <Input validate={true} text="Município do Encarregado" id="birthdate" type="text" name="birthdate" _class="signup" handleEvent={handleChange} handleFocus={handleFocus} />
-                                            <Input validate={true} text="Distrito do Encarregado" id="birthdate" type="text" name="birthdate" _class="signup" handleEvent={handleChange} handleFocus={handleFocus} />
-                                            <Input validate={true} text="Email do Encarregado de Educação" type="email" name="email" placeholder="" _class="signup" handleEvent={handleChange} />
-                                            <p className="mb-3">Contacto(s) do Encarregado de Educação</p>
+                                            <Input registerYup={register1} text="Município" id="educatorCity" type="text" name="educatorCity" _class="signup" handleEvent={handleChange} />
+                                            <Input registerYup={register1} text="Email" type="email" name="email" placeholder="" _class="signup" handleEvent={handleChange} />
+                                            <p className="mb-3">Contacto(s)</p>
                                             <div className={`inputInvisible d-flex align-items-center mb-4`}>
                                                 <div style={{ width: '48%' }}>
-                                                    <Input validate={true} text="" placeholder="Contacto *" id="birthdate" type="text" name="birthdate" _class="invisible" handleEvent={handleChange} handleFocus={handleFocus} />
+                                                    <Input registerYup={register1} text="" placeholder="Contacto *" id="telephone1" type="tel" name="telephone1" _class="invisible" handleEvent={handleChange} />
                                                 </div>
                                                 |
                                                 <div style={{ width: '48%' }}>
-                                                    <Input validate={true} text="" placeholder="Contacto 2" id="birthdate" type="text" name="birthdate" _class="invisible" handleEvent={handleChange} handleFocus={handleFocus} />
+                                                    <Input registerYup={register1} text="" placeholder="Contacto 2(opcional)" id="telephone2" type="tel" name="telephone2" _class="invisible" handleEvent={handleChange} />
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+
+                                        {(Object.keys(errors1).length > 0 || error.show) && <Stack spacing={3}>
+                                            <Alert status='error' className="text-center">
+                                                <><AlertIcon />
+                                                    {errors1.educatorBI?.message || errors1.educatorFullName?.message || errors1.educatorCity?.message || errors1.email?.message || errors1.telephone1?.message || errors1.telephone2?.message || error.message}
+                                                </>
+                                            </Alert>
+                                        </Stack>}
+                                        {ButtonChoose(index, setIndex)}
+                                    </form>
                                 </Carousel.Item>
                                 {/*---------------------*Dados do Aluno-----------------*/}
                                 <Carousel.Item>
-                                    <div className="row">
+                                    <form onSubmit={handleSubmit2(onSubmitHandler)} className="row">
                                         <div className="col-md-12 col-lg-6">
-                                            <Input validate={true} text="Nº do Bilhete" id="bilheteAluno" type="text" name="bilhete" placeholder="" _class="signup" handleEvent={handleChange} maxLength={14} />
-                                            <Input validate={true} text="Nome do Aluno" type="text" name="fullName" placeholder="" _class="signup" handleEvent={handleChange} />
-                                            <Select text="Sexo" id="cmbSexo" _options={[{ id: 'M', name: 'M' }, { id: 'F', name: 'F' }]} handle={handleSelect} _class="signup" />
+                                            <Input registerYup={register2} text="Nº do Bilhete" id="bi" type="text" name="bi" placeholder="" _class="signup" handleEvent={handleChange} maxLength={14} />
+                                            <Input registerYup={register2} text="Nome Completo" type="text" name="fullName" placeholder="" _class="signup" handleEvent={handleChange} />
+                                            <Select registerYup={register2} text="Gênero" id="gender" _options={[{ id: 'M', name: 'M' }, { id: 'F', name: 'F' }]} handle={handleSelect} _class="signup" />
                                         </div>
                                         <div className="col-md-12 col-lg-6">
                                             <p className="">Data de Nascimento</p>
                                             <div className="d-flex justify-content-between">
-                                                <Input validate={true} text="" id="birthdate" type="date" name="birthdate" _class="signup" handleEvent={handleChange} handleFocus={handleFocus} />
+                                                <InputDate max={moment().subtract(14, 'years').calendar()} registerYup={register2} text="" id="birthdate" type="date" name="birthdate" _class="signup" handleEvent={handleChange} />
                                                 &nbsp;&nbsp;
                                                 <div className="d-flex justify-content-between align-items-center">
-                                                    <Input validate={true} text="" id="birthdate" readOnly={true} type="text" name="birthdate" _class="signup" handleEvent={handleChange} handleFocus={handleFocus} />
+                                                    <Input validate={true} text="" id="age" readOnly={true} type="text" name="age" _class="signup" handleEvent={handleChange} />
                                                     &nbsp;&nbsp;<span style={{ fontSize: '12px', textAlign: 'center' }}>idade até 31 de Maio</span>
                                                 </div>
                                             </div>
 
-                                            <Input validate={true} text="Município do Aluno" id="birthdate" type="text" name="birthdate" _class="signup" handleEvent={handleChange} handleFocus={handleFocus} />
-                                            <Input validate={true} text="Distrito do Aluno" id="birthdate" type="text" name="birthdate" _class="signup" handleEvent={handleChange} handleFocus={handleFocus} />
+                                            <Input registerYup={register2} text="Município" id="city" type="text" name="city" _class="signup" handleEvent={handleChange} />
+                                            <Input registerYup={register2} text="Endereço" id="address" type="text" name="address" _class="signup" handleEvent={handleChange} />
                                         </div>
-                                    </div>
+
+                                        {(Object.keys(errors2).length > 0 || error.show) && <Stack spacing={3}>
+                                            <Alert status='error' className="text-center">
+                                                <><AlertIcon />
+                                                    {errors2.bi?.message || errors2.fullName?.message || errors2.birthdate?.message || errors2.city?.message || errors2.address?.message || error.message}
+                                                </>
+                                            </Alert>
+                                        </Stack>}
+                                        {ButtonChoose(index, setIndex)}
+                                    </form>
                                 </Carousel.Item>
                                 {/*----------------------*Dados Acadêmicos----------------*/}
                                 <Carousel.Item>
-                                    <div className="row">
+                                    <form onSubmit={handleSubmit2(onSubmitHandler)} className="row">
                                         <div className="col-md-12 col-lg-6">
                                             <div>
                                                 <Input text="Escola de proveniência - 9ª classe (Nome ou Nº)" type="text" name="school" placeholder="" _class="signup" handleEvent={handleChange} />
@@ -195,11 +233,11 @@ export default function SignUp() {
                                                 <hr className="row-global" />
                                                 <div className="text-center d-flex justify-content-between align-items-center">
                                                     <b>1ª Opção</b>
-                                                    <Select text="" id="cmbSexo" _options={[{ id: 'M', name: 'Técnico de Informática' }, { id: 'F', name: 'Técnico de Gestão de Sistemas Informáticos' }]} handle={handleSelect} _class="signup" />
+                                                    <Select text="" id="cmbCourse1" _options={[{ id: 'M', name: 'Técnico de Informática' }, { id: 'F', name: 'Técnico de Gestão de Sistemas Informáticos' }]} handle={handleSelect} _class="signup" />
                                                 </div>
                                                 <div className="text-center d-flex justify-content-between align-items-center mt-2">
                                                     <b>2ª Opção</b>
-                                                    <Select text="" id="cmbSexo" _options={[{ id: 'M', name: 'Técnico de Informática' }, { id: 'F', name: 'Técnico de Gestão de Sistemas Informáticos' }]} handle={handleSelect} _class="signup" />
+                                                    <Select text="" id="cmbCourse2" _options={[{ id: 'M', name: 'Técnico de Informática' }, { id: 'F', name: 'Técnico de Gestão de Sistemas Informáticos' }]} handle={handleSelect} _class="signup" />
                                                 </div>
                                             </div>
                                         </div>
@@ -253,22 +291,22 @@ export default function SignUp() {
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>
+                                    </form>
                                 </Carousel.Item>
                                 {/*----------------------*Anexos de Documentos----------------*/}
                                 <Carousel.Item>
                                     <div className="row">
                                         <div className="col-md-12 col-lg-6">
                                             <div className="">
-                                                <Input text="Anexo de BI" type="file" id="schedule" accept=".pdf" name="schedule" _class="default" handleEvent={handleFile} />
+                                                <Input text="Anexo de BI" type="file" id="scheduleBI" accept=".pdf" name="scheduleBI" _class="default" handleEvent={handleFile} />
                                             </div>
                                         </div>
                                         <div className="col-md-12 col-lg-6">
                                             <div className="">
-                                                <Input text="Anexo de Certificado" type="file" id="schedule" accept=".pdf" name="schedule" _class="default" handleEvent={handleFile} />
+                                                <Input text="Anexo de Certificado" type="file" id="scheduleCertificado" accept=".pdf" name="scheduleCertificado" _class="default" handleEvent={handleFile} />
                                             </div>
                                         </div>
-                                        {errorUpload.state &&
+                                        {errorUpload.show &&
                                             <p className='text-center' style={{ color: errorUpload.color }}>
                                                 {errorUpload.message}
                                             </p>}
@@ -280,22 +318,9 @@ export default function SignUp() {
 
                                 </Carousel.Item>
                             </Carousel>
+                        </CardSignUp>
 
-                            {index !== 0 && <nav className={`${styles.options} mt-4`}>
-                                <ul className="pagination">
-                                    <li className={`page-item`} onClick={() => { window.scrollTo(0, 0); setIndex(index - 1) }}>
-                                        <button className="page-link text-center">
-                                            <div className="d-flex flex-column align-items-center">Anterior<FaArrowLeft /></div>
-                                        </button>
-                                    </li>
-                                    <li className={`page-item text-center`} onClick={() => { window.scrollTo(0, 0); setIndex(index + 1) }}>
-                                        <button className="page-link text-center">
-                                            <div className="d-flex flex-column align-items-center">Próximo<FaArrowRight /></div>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </nav>}
-                        </Form>
+
 
                         {/*<form onSubmit={handleSubmit(onSubmit)}>
                             <input type="text" className="form-control" {...register('fullName', { required: true, pattern: /^\w$/ })} />
