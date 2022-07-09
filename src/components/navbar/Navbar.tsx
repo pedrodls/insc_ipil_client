@@ -1,11 +1,11 @@
 import styles from './Navbar.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
-import { Logo } from '../../envs/imgs';
+import { Logo } from '../../environments/imgs';
 import Sidemenu from '../menu/Sidemenu';
 import { Button } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import __VARIABLES__ from '../../envs/variables';
+import __VARIABLES__ from '../../environments/variables';
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
@@ -41,7 +41,7 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
                 <div className="container-fluid">
                     {/**------------------------------Menu------------------------------------- */}
                     <div className="navbar-header d-flex justify-content-between align-items-center">
-                        <Link to={'/'}>
+                        <a>
                             <div className="container">
                                 <div className="row align-items-center">
                                     <div className="col-5">
@@ -51,12 +51,14 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
                                     </div>
                                     <div className="col d-flex justify-content-center">
                                         <div className="logo">
-                                            <img className={styles.logo} src={Logo} alt="Logotipo" onClick={() => navigate('/')} />
+                                            <Link to={'/'}>
+                                                <img className={styles.logo} src={Logo} alt="Logotipo" onClick={() => navigate('/')} />
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </Link>
+                        </a>
                         {/**------------------------------Colapso------------------------------------- */}
                         < div className={styles.collapse + " " + styles['navbar-collapse']}>
                             <ul className="nav d-flex justify-content-end">

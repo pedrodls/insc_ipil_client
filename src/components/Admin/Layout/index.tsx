@@ -20,7 +20,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-import _VARIABLES_ from "../../../envs/variables"
+import _VARIABLES_ from "../../../environments/variables"
 //COMPONENTS
 import { mainListItems, secondaryListItems } from '../../../components/Admin/NavItems/listItems';
 
