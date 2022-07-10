@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Navbar, InputFile, InputDate, Input, Select, Footer, CardSignUp, Spinner, Button } from './../../envs/elements';
-import { ERROR_STATE } from './../../envs/states';
+import { Navbar, InputFile, InputDate, Input, Select, Footer, CardSignUp, Button  } from '../../environments/elements';
+import { ERROR_STATE } from '../../environments/states';
 import styles from './SignUp.module.scss';
 import { FaArrowLeft, FaArrowRight, FaBoxOpen } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Carousel } from 'react-bootstrap';
-import { schemaStage1, schemaStage2, schemaStage3 } from './../../envs/schemas';
+import { schemaStage1, schemaStage2, schemaStage3 } from '../../environments/schemas';
 import { Alert, AlertIcon, Stack } from '@chakra-ui/react';
 import moment from 'moment';
 

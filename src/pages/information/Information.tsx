@@ -1,7 +1,7 @@
 import styles from './Information.module.scss';
 
 import { Link, Outlet } from 'react-router-dom';
-import __VARIABLES__ from '../../envs/variables';
+import __VARIABLES__ from '../../environments/variables';
 import { FaArrowUp } from 'react-icons/fa';
 import { Button, ButtonGroup, Heading } from '@chakra-ui/react';
 import { useEffect } from 'react';

@@ -12,6 +12,7 @@ import Home from "../pages/home/Home";
 //ADMIN DASHBOARD
 
 import Dashboard from "../pages/Admin/Dashboard/Dashboard"
+import UserAccount from "../pages/Admin/Users/UserAccount"
 //---------------------------------------------------------------
 
 //Layouts Documents
@@ -24,6 +25,8 @@ import {InputFile} from '../components/input/Input';
 import Button from '../components/button/Button';
 import Select from '../components/select/Select';
 import Spinner from '../components/spinner/Spinner';
+
+export { UserAccount};
 import {CardSignUp} from '../components/card/Card';
 
 

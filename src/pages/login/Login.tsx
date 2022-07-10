@@ -2,9 +2,10 @@ import  { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import styles from './Login.module.scss';
 import { FaKey, FaEnvelope } from 'react-icons/fa';
-import {Form, Input, Button, Footer} from './../../envs/elements';
+import {Form, Input, Button, Footer} from '../../environments/elements';
 
-export default function Login() {    
+export default function Login() { 
+       
     const [error, setError] = useState({ show: false, message: '' });
     const [spinner, setSpinner] = useState(false);
 
