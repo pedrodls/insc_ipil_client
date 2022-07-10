@@ -23,6 +23,7 @@ import {InputDate} from '../components/input/Input';
 import {InputFile} from '../components/input/Input';
 import Button from '../components/button/Button';
 import Select from '../components/select/Select';
+import Spinner from '../components/spinner/Spinner';
 import {CardSignUp} from '../components/card/Card';
 
 
@@ -30,5 +31,5 @@ import {CardSignUp} from '../components/card/Card';
 
 export {Index, Login, SignUp, Information, AttachPayment, Contact, Home};
 export {Dashboard};
-export {Navbar, Form, Input, InputDate, InputFile, Button, Select, Footer, CardSignUp}
+export {Navbar, Form, Input, InputDate, InputFile, Button, Select, Footer, CardSignUp, Spinner}
 
