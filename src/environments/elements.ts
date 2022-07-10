@@ -26,12 +26,12 @@ import Button from '../components/button/Button';
 import Select from '../components/select/Select';
 import Spinner from '../components/spinner/Spinner';
 
-export { UserAccount};
 import {CardSignUp} from '../components/card/Card';
 
 
 //---------------------------------------------------------------
 
+export { UserAccount};
 export {Index, Login, SignUp, Information, AttachPayment, Contact, Home};
 export {Dashboard};
 export {Navbar, Form, Input, InputDate, InputFile, Button, Select, Footer, CardSignUp, Spinner}
