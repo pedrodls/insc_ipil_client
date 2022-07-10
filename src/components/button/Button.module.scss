@@ -1,24 +1,37 @@
-.defaultDanger, .defaultSuccess{
-    color: #fff !important;    
-    padding: 10px 0 !important;
+
+.defaultDanger,
+.defaultSuccess,
+.defaultYellow {
+    color: #fff !important;
+    padding: 10px 20px !important;
     box-shadow: 0 2px 28px 0 rgb(0 0 0 / 9%);
     border-radius: 3px;
     border: none;
-    margin-top: 20px !important;    
 }
-.defaultDanger{    
+.defaultYellow {
+    background-color: var(--default-orange) !important;
+    border-color: var(--default-orange) !important;
+}
+.defaultYellow:hover {
+    background-color: var(--default-orange-hover) !important;
+    border-color: var(--default-orange-hover) !important;
+}
+.defaultDanger {
     background-color: #dc3545 !important;
-    border-color: #dc3545 !important;        
+    border-color: #dc3545 !important;
 }
-.defaultDanger:hover{
+
+.defaultDanger:hover {
     background-color: #bb2d3b !important;
     border-color: #b02a37 !important;
 }
-.defaultSuccess{    
+
+.defaultSuccess {
     background-color: #198754;
-    border-color: #198754;    
+    border-color: #198754;
 }
-.defaultSuccess:hover{    
+
+.defaultSuccess:hover {
     background-color: #157347;
     border-color: #146c43;
 }
