@@ -17,8 +17,7 @@ export default function Input({ registerYup=() => {}, defaultValue = "", readOnl
         </>
     )
 }
-export function InputDate({ registerYup=() => {}, maxDate=moment().format('YYYY-MM-DD'), defaultValue = "", text = "", name = "", _class = "", title = "",handleEvent = ()=>{}}: any) {        
-    console.log(maxDate)
+export function InputDate({ registerYup=() => {}, minDate="", maxDate=moment().format('YYYY-MM-DD'), defaultValue = "", text = "", name = "", _class = "", title = "",handleEvent = ()=>{}}: any) {            
     const [value, setValue] = useState<string>(defaultValue);    
     const handleChange = (e: any) => {
         setValue(e.target.value);
@@ -27,7 +26,7 @@ export function InputDate({ registerYup=() => {}, maxDate=moment().format('YYYY-
     return (
         <>
             {text && <label htmlFor={name}>{text}</label>}            
-            <input {...registerYup(name)} id={name} title={title} type={'date'} max={maxDate} name={name} className={`${styles[_class]} form-control`} required={true} onChange={handleChange} value={value} />
+            <input {...registerYup(name)} id={name} title={title} type={'date'} max={maxDate} min={minDate} name={name} className={`${styles[_class]} form-control`} required={true} onChange={handleChange} value={value} />
         </>
     )
 }
