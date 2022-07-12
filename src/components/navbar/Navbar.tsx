@@ -41,7 +41,7 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
                 <div className="container-fluid">
                     {/**------------------------------Menu------------------------------------- */}
                     <div className="navbar-header d-flex justify-content-between align-items-center">
-                        <a>
+                        <div>
                             <div className="container">
                                 <div className="row align-items-center">
                                     <div className="col-5">
@@ -58,7 +58,7 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                         {/**------------------------------Colapso------------------------------------- */}
                         < div className={styles.collapse + " " + styles['navbar-collapse']}>
                             <ul className="nav d-flex justify-content-end">
