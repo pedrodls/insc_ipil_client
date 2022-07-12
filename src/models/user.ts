@@ -1,6 +1,7 @@
-
 export class User{
+  constructor(){
 
+  }
 
   id!: string;
 
@@ -13,8 +14,5 @@ export class User{
   status!: string;
 
   message!: string;
-
-  constructor(){
-
-  }
+  
 }

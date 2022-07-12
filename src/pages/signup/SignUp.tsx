@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar, InputFile, InputDate, Input, Select, Footer, CardSignUp, Button  } from '../../environments/elements';
+import __VARIABLES__ from '../../environments/variables';
 import { ERROR_STATE } from '../../environments/states';
 import styles from './SignUp.module.scss';
 import { FaArrowLeft, FaArrowRight, FaBoxOpen } from 'react-icons/fa';
@@ -9,6 +10,10 @@ import { Carousel } from 'react-bootstrap';
 import { schemaStage1, schemaStage2, schemaStage3 } from '../../environments/schemas';
 import { Alert, AlertIcon, Stack } from '@chakra-ui/react';
 import moment from 'moment';
+//services request
+import {AreaService} from '../../environments/services';
+//models request
+import {AreaModel} from '../../environments/models';
 
 function ButtonChoose(index: number, setIndex: any) {
     return (<>
@@ -28,8 +33,10 @@ function ButtonChoose(index: number, setIndex: any) {
         </nav>
     </>)
 }
-
 export default function SignUp() {
+    const areaServices = new AreaService();    
+    const [areas, setAreas] = useState<Array<AreaModel>>([]);
+    
     //---------------------Declaration Session---------------------------------------------------------------
     const [spinner, setSpinner] = useState<boolean>(false);
     const [index, setIndex] = useState<number>(0); //controlador do estado do formulário    
@@ -37,12 +44,20 @@ export default function SignUp() {
     const [signup, setSignUp] = useState({}); //varíavel responsável por guardar os dados
     const [birthdateCalc, setBirthdateCalc] = useState<string>('') //variável que guarda o cálculo da idade dele
     const [filesUploaded, setFilesUploaded] = useState([null, null]) //variável que guarda oS ficheiros submetidos
-    const [filesLength, setFilesLength] = useState<number>(0) //variável que guarda o cálculo da idade dele
+    const [filesLength, setFilesLength] = useState<number>(0) //variável que guarda o cálculo da idade dele    
 
     //configurando react-hook-form com os schemas yup
     const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({ resolver: yupResolver(schemaStage1) });
     const { register: register2, handleSubmit: handleSubmit2, formState: { errors: errors2 } } = useForm({ resolver: yupResolver(schemaStage2) });
     const { register: register3, handleSubmit: handleSubmit3, formState: { errors: errors3 } } = useForm({ resolver: yupResolver(schemaStage3) });
+    
+    useEffect(() => {        
+        areaServices.getAll().then(data => setAreas(data.data.data)).catch(e => console.log(e));
+    },[]);
+
+    useEffect(() => {
+        console.log(areas);
+    },[areas]);
 
     //----------------------Function Session----------------------------------------
     const handleSearchGuide = () => {
@@ -58,6 +73,7 @@ export default function SignUp() {
         if (index === 1 || index === 2 || index === 3) {
             setIndex(index + 1);
             Object.assign(signup, data);
+            console.log(signup);
         }
         //reset();
     }
@@ -132,7 +148,7 @@ export default function SignUp() {
                                         </div>
                                     </div>
                                     <div className={`mt-4 mb-4`}>
-                                        <Select text="" id="cmbSexo" _options={[{ id: 'M', name: 'Informática' }, { id: 'F', name: 'Mecânica' }]} handle={handleSelect} _class="signup" />
+                                        <Select text="" id="cmbSexo" _options={areas} handle={handleSelect} _class="signup" />
                                     </div>
                                     <table className={`table table-borderless table-responsible ${styles.table}`} style={{ verticalAlign: 'middle', marginTop: '4em' }}>
                                         <thead className="text-center">
@@ -181,10 +197,10 @@ export default function SignUp() {
                                         <div className="col-md-12 col-lg-6">
                                             <Input registerYup={register1} text="Nº do Bilhete" id="educatorBI" type="text" name="educatorBI" placeholder="" _class="signup" handleEvent={handleChange} maxLength={14} />
                                             <Input registerYup={register1} text="Nome Completo" type="text" name="educatorFullName" placeholder="" _class="signup" handleEvent={handleChange} />
-                                            <Select registerYup={register1} text="Parentesto" id="kinship" _options={[{ id: 'Mãe', name: 'Mãe' }, { id: 'Pai', name: 'Pai' }]} handle={handleSelect} _class="signup" />
+                                            <Select registerYup={register1} text="Parentesto" id="kinship" _options={__VARIABLES__._kinship_} handle={handleSelect} _class="signup" />
                                         </div>
                                         <div className="col-md-12 col-lg-6">
-                                            <Input registerYup={register1} text="Município" id="educatorCity" type="text" name="educatorCity" _class="signup" handleEvent={handleChange} />
+                                            <Input registerYup={register1} text="Município" id="educatorTown" type="text" name="educatorTown" _class="signup" handleEvent={handleChange} />
                                             <Input registerYup={register1} text="Email" type="email" name="email" placeholder="" _class="signup" handleEvent={handleChange} />
                                             <p className="mb-3">Contacto(s)</p>
                                             <div className={`inputInvisible d-flex align-items-center mb-4`}>
@@ -214,7 +230,7 @@ export default function SignUp() {
                                         <div className="col-md-12 col-lg-6">
                                             <Input registerYup={register2} text="Nº do Bilhete" id="bi" type="text" name="bi" placeholder="" _class="signup" handleEvent={handleChange} maxLength={14} />
                                             <Input registerYup={register2} text="Nome Completo" type="text" name="fullName" placeholder="" _class="signup" handleEvent={handleChange} />
-                                            <Select registerYup={register2} text="Gênero" id="gender" _options={[{ id: 'M', name: 'M' }, { id: 'F', name: 'F' }]} handle={handleSelect} _class="signup" />
+                                            <Select registerYup={register2} text="Gênero" id="gender" _options={__VARIABLES__._gender_} handle={handleSelect} _class="signup" />
                                         </div>
                                         <div className="col-md-12 col-lg-6">
                                             <p className="">Data de Nascimento</p>
@@ -227,7 +243,7 @@ export default function SignUp() {
                                                 </div>
                                             </div>
 
-                                            <Input registerYup={register2} text="Município" id="city" type="text" name="city" _class="signup" handleEvent={handleChange} />
+                                            <Input registerYup={register2} text="Município" id="town" type="text" name="town" _class="signup" handleEvent={handleChange} />
                                             <Input registerYup={register2} text="Endereço" id="address" type="text" name="address" _class="signup" handleEvent={handleChange} />
                                         </div>
 
