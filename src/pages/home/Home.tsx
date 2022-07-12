@@ -16,10 +16,10 @@ export default function Home() {
                     <div className="row">
                         <div className="col-md-12 text-center">
                             <Heading as='h1' size='3xl'>
-                                <h1 className="title mb-5 mt-5">
+                                <p className="title mb-5 mt-5">
                                     Bem-vindo ao portal de <br /> inscrição online do
                                     {' ' + __VARIABLES__._institute_short_name_}
-                                </h1>
+                                </p>
                             </Heading>
 
                             <Link to={'/signup'} className="mt-5 me-3 mb-3">
