@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Navbar, InputFile, InputDate, Input, Select, Footer, CardSignUp, Button  } from '../../environments/elements';
+import { Navbar, InputFile, InputDate, Input, Select, Footer, CardSignUp, Button, SpinnerSignUp } from '../../environments/elements';
 import __VARIABLES__ from '../../environments/variables';
-import { ERROR_STATE } from '../../environments/states';
+import { ERROR_STATE, APRESENTATION_STATE } from '../../environments/states';
 import styles from './SignUp.module.scss';
 import { FaArrowLeft, FaArrowRight, FaBoxOpen } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
@@ -11,9 +11,9 @@ import { schemaStage1, schemaStage2, schemaStage3 } from '../../environments/sch
 import { Alert, AlertIcon, Stack } from '@chakra-ui/react';
 import moment from 'moment';
 //services request
-import {AreaService} from '../../environments/services';
+import { AreaService, TownService, CourseService } from '../../environments/services';
 //models request
-import {AreaModel} from '../../environments/models';
+import { AreaModel, TownModel, CourseModel } from '../../environments/models';
 
 function ButtonChoose(index: number, setIndex: any) {
     return (<>
@@ -34,13 +34,20 @@ function ButtonChoose(index: number, setIndex: any) {
     </>)
 }
 export default function SignUp() {
-    const areaServices = new AreaService();    
+    //instancia dos serviços
+    const areaServices = new AreaService();
+    const townServices = new TownService();
+    const courseServices = new CourseService();
+
     const [areas, setAreas] = useState<Array<AreaModel>>([]);
-    
+    const [towns, setTowns] = useState<Array<TownModel>>([]);
+    const [courses, setCourses] = useState<Array<CourseModel>>([]);
+
     //---------------------Declaration Session---------------------------------------------------------------
-    const [spinner, setSpinner] = useState<boolean>(false);
+    const [spinner, setSpinner] = useState<Array<boolean>>([false, false]);
     const [index, setIndex] = useState<number>(0); //controlador do estado do formulário    
     const [error, setError] = useState(new ERROR_STATE()); //controlo de erro
+    const [apresentation, setApresentation] = useState(new APRESENTATION_STATE()); //apresentação das telas
     const [signup, setSignUp] = useState({}); //varíavel responsável por guardar os dados
     const [birthdateCalc, setBirthdateCalc] = useState<string>('') //variável que guarda o cálculo da idade dele
     const [filesUploaded, setFilesUploaded] = useState([null, null]) //variável que guarda oS ficheiros submetidos
@@ -50,18 +57,27 @@ export default function SignUp() {
     const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({ resolver: yupResolver(schemaStage1) });
     const { register: register2, handleSubmit: handleSubmit2, formState: { errors: errors2 } } = useForm({ resolver: yupResolver(schemaStage2) });
     const { register: register3, handleSubmit: handleSubmit3, formState: { errors: errors3 } } = useForm({ resolver: yupResolver(schemaStage3) });
-    
-    useEffect(() => {        
+
+    useEffect(() => {
         areaServices.getAll().then(data => setAreas(data.data.data)).catch(e => console.log(e));
-    },[]);
+        townServices.getAll().then(data => setTowns(data.data.data)).catch(e => console.log(e));
+        setApresentation({...apresentation, show1: true});        
+    }, []);
 
     useEffect(() => {
         console.log(areas);
-    },[areas]);
+    }, [areas]);
 
     //----------------------Function Session----------------------------------------
-    const handleSearchGuide = () => {
+    const handleSearchGuide = async() => {
+        setSpinner(() => [true, false]);
+        //trazer cursos só dessa área
+        await courseServices.getAll().then(data => {console.log('dentro'); setCourses(data.data.data)}).catch(e => console.log(e));
+        
+        setSpinner(() => [false, false])
         setIndex(1);
+        console.log('fora');
+        //procurar guias
     }
 
     const onSubmitHandler = (data: any) => {
@@ -69,6 +85,9 @@ export default function SignUp() {
             setError({ show: true, color: '', message: 'Campo Contacto 2 no Formato Incorrecto' });
             return false;
         }
+        if (index === 1 && data.educatorTown.length === 0)
+            data.educatorTown = towns[0].id;
+
         window.scrollTo(0, 0);
         if (index === 1 || index === 2 || index === 3) {
             setIndex(index + 1);
@@ -85,7 +104,7 @@ export default function SignUp() {
         setError(new ERROR_STATE)
     } //método executado quando input muda
     const handleSubmit = () => { //método executado quando clicado no Próximo                    
-        if(filesLength != 2){
+        if (filesLength != 2) {
             setError({ show: true, color: '', message: 'Anexe 2 ficheiros .PDF cada um com < 2.41MB' });
             return false;
         }
@@ -107,7 +126,7 @@ export default function SignUp() {
             } //maior que 2,41MB
             else
                 stageHandle(e.target.files[0]);
-                        
+
             console.log(filesUploaded)
         } catch (error) {
             stageHandle(null)
@@ -139,53 +158,59 @@ export default function SignUp() {
                             </>}
                             <Carousel activeIndex={index} interval={300} indicators={false} slide={false} fade controls={false}>
                                 <Carousel.Item>
-
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <h1>Áreas de Formação</h1>
-                                        <div className="d-flex justify-content-end" style={{ width: '40%' }}>
-                                            <Button text={spinner ? (<><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Aguarde...</>) : 'Inscrever'}
-                                                type="submit" _class="defaultYellow" handle={handleSearchGuide} disabled={spinner} />
+                                    <SpinnerSignUp visibility={!apresentation.show1}>
+                                        <div className="pt-4 d-flex justify-content-center">
+                                            <p>Carregando os Dados...</p>
                                         </div>
-                                    </div>
-                                    <div className={`mt-4 mb-4`}>
-                                        <Select text="" id="cmbSexo" _options={areas} handle={handleSelect} _class="signup" />
-                                    </div>
-                                    <table className={`table table-borderless table-responsible ${styles.table}`} style={{ verticalAlign: 'middle', marginTop: '4em' }}>
-                                        <thead className="text-center">
-                                            <tr>
-                                                <th>-</th>
-                                                <th>Áreas</th>
-                                                <th>Estado das Guias</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td className="text-center">1</td>
-                                                <td>Construção Civil</td>
-                                                <td className="text-center text-danger">indisponível</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="text-center">2</td>
-                                                <td>Electricidade</td>
-                                                <td className="text-center text-success">disponível</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="text-center">3</td>
-                                                <td>Informática</td>
-                                                <td className="text-center text-success">disponível</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="text-center">4</td>
-                                                <td>Química</td>
-                                                <td className="text-center text-success">disponível</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="text-center">5</td>
-                                                <td>Mecânica</td>
-                                                <td className="text-center text-danger">indisponível</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    </SpinnerSignUp>
+                                    {apresentation.show1 && <>
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <h1>Áreas de Formação</h1>
+                                            <div className="d-flex justify-content-end" style={{ width: '40%' }}>
+                                                <Button text={spinner[0] ? (<><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Aguarde...</>) : 'Inscrever'}
+                                                    type="submit" _class="defaultYellow" handle={handleSearchGuide} disabled={spinner[0]} />
+                                            </div>
+                                        </div>
+                                        <div className={`mt-4 mb-4`}>
+                                            <Select text="" id="cmbSexo" _options={areas} handle={handleSelect} _class="signup" />
+                                        </div>
+                                        <table className={`table table-borderless table-responsible ${styles.table}`} style={{ verticalAlign: 'middle', marginTop: '4em' }}>
+                                            <thead className="text-center">
+                                                <tr>
+                                                    <th>-</th>
+                                                    <th>Áreas</th>
+                                                    <th>Estado das Guias</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td className="text-center">1</td>
+                                                    <td>Construção Civil</td>
+                                                    <td className="text-center text-danger">indisponível</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="text-center">2</td>
+                                                    <td>Electricidade</td>
+                                                    <td className="text-center text-success">disponível</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="text-center">3</td>
+                                                    <td>Informática</td>
+                                                    <td className="text-center text-success">disponível</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="text-center">4</td>
+                                                    <td>Química</td>
+                                                    <td className="text-center text-success">disponível</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="text-center">5</td>
+                                                    <td>Mecânica</td>
+                                                    <td className="text-center text-danger">indisponível</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </>}
 
                                 </Carousel.Item>
                                 {/*------------------*Dados do Encarregado de Educação-----*/}
@@ -200,7 +225,7 @@ export default function SignUp() {
                                             <Select registerYup={register1} text="Parentesto" id="kinship" _options={__VARIABLES__._kinship_} handle={handleSelect} _class="signup" />
                                         </div>
                                         <div className="col-md-12 col-lg-6">
-                                            <Input registerYup={register1} text="Município" id="educatorTown" type="text" name="educatorTown" _class="signup" handleEvent={handleChange} />
+                                            <Select registerYup={register1} text="Município" id="educatorTown" _options={towns} handle={handleSelect} _class="signup" />
                                             <Input registerYup={register1} text="Email" type="email" name="email" placeholder="" _class="signup" handleEvent={handleChange} />
                                             <p className="mb-3">Contacto(s)</p>
                                             <div className={`inputInvisible d-flex align-items-center mb-4`}>
@@ -243,7 +268,7 @@ export default function SignUp() {
                                                 </div>
                                             </div>
 
-                                            <Input registerYup={register2} text="Município" id="town" type="text" name="town" _class="signup" handleEvent={handleChange} />
+                                            <Select registerYup={register1} text="Município" id="town" _options={towns} handle={handleSelect} _class="signup" />
                                             <Input registerYup={register2} text="Endereço" id="address" type="text" name="address" _class="signup" handleEvent={handleChange} />
                                         </div>
 
@@ -352,7 +377,7 @@ export default function SignUp() {
                                             <div className="">
                                                 <InputFile text="Anexo de Certificado" id="scheduleCertificado" accept=".pdf" name="scheduleCertificado" _class="default" handleEvent={handleFile} />
                                             </div>
-                                        </div>                                        
+                                        </div>
                                         <div className="d-flex flex-column align-items-center justify-content-center">
                                             <FaBoxOpen className="" size="100" color="gainsboro" />
                                             <div className={styles.filesUploaded}>{filesLength}</div>
