@@ -6,6 +6,8 @@
     background-color: rgba(0 0 0 / 10%);
     box-shadow: 0 0 0.625rem 0 rgb(21 58 160 / 10%);
     transition: .3s;
+    top: 0;
+
     .navbar-collapse {
         border-top: none;
         box-shadow: none;
@@ -34,6 +36,7 @@
     background-color: #fff;
     box-shadow: 0 0 0.625rem 0 rgb(21 58 160 / 10%);
     transition: .3s;
+    top: 0;
 
     .navbar-collapse {
         border-top: none;
