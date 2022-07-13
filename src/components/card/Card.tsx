@@ -15,3 +15,11 @@ export function CardSignUp({_class="sign_up", children}: any){
         </div>
     )
 }
+
+export function CardGuides({_class="sign_up", children}: any){
+    return (
+        <div className={`${styles[_class]}`}>
+            {children}
+        </div>
+    )
+}

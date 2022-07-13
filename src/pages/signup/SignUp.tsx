@@ -220,21 +220,30 @@ export default function SignUp() {
                                         {/*errors.email?.message*/}
 
                                         <div className="col-md-12 col-lg-6">
+
                                             <Input registerYup={register1} text="Nº do Bilhete" id="educatorBI" type="text" name="educatorBI" placeholder="" _class="signup" handleEvent={handleChange} maxLength={14} />
+
                                             <Input registerYup={register1} text="Nome Completo" type="text" name="educatorFullName" placeholder="" _class="signup" handleEvent={handleChange} />
                                             <Select registerYup={register1} text="Parentesto" id="kinship" _options={__VARIABLES__._kinship_} handle={handleSelect} _class="signup" />
                                         </div>
                                         <div className="col-md-12 col-lg-6">
                                             <Select registerYup={register1} text="Município" id="educatorTown" _options={towns} handle={handleSelect} _class="signup" />
                                             <Input registerYup={register1} text="Email" type="email" name="email" placeholder="" _class="signup" handleEvent={handleChange} />
+
                                             <p className="mb-3">Contacto(s)</p>
+
                                             <div className={`inputInvisible d-flex align-items-center mb-4`}>
+
                                                 <div style={{ width: '48%' }}>
+
                                                     <Input registerYup={register1} text="" placeholder="Contacto" id="telephone1" type="tel" name="telephone1" _class="invisible" handleEvent={handleChange} />
+
                                                 </div>
                                                 |
                                                 <div style={{ width: '48%' }}>
+
                                                     <Input registerYup={register1} text="" placeholder="Contacto 2 (opcional)" id="telephone2" type="tel" name="telephone2" _class="invisible" handleEvent={handleChange} />
+
                                                 </div>
                                             </div>
                                         </div>
@@ -242,7 +251,13 @@ export default function SignUp() {
                                         {(Object.keys(errors1).length > 0 || error.show) && <Stack spacing={3}>
                                             <Alert status='error' className="text-center">
                                                 <><AlertIcon />
-                                                    {errors1.educatorBI?.message || errors1.educatorFullName?.message || errors1.educatorCity?.message || errors1.email?.message || errors1.telephone1?.message || errors1.telephone2?.message || error.message}
+                                                    {
+                                                        /*---------------------*
+                                                        Melhorar este código!!!!!
+                                                        -----------------*/
+
+                                                        errors1.educatorBI?.message || errors1.educatorFullName?.message || errors1.educatorCity?.message || errors1.email?.message || errors1.telephone1?.message || errors1.telephone2?.message || error.message
+                                                    }
                                                 </>
                                             </Alert>
                                         </Stack>}
@@ -260,8 +275,11 @@ export default function SignUp() {
                                         <div className="col-md-12 col-lg-6">
                                             <p className="">Data de Nascimento</p>
                                             <div className="d-flex justify-content-between">
+
                                                 <InputDate maxDate={moment().subtract(14, 'years').format('YYYY-MM-DD')} minDate={moment().subtract(20, 'years').format('YYYY-MM-DD')} registerYup={register2} text="" id="birthdate" type="date" name="birthdate" _class="signup" handleEvent={handleChange} />
+
                                                 &nbsp;&nbsp;
+                                                
                                                 <div className="d-flex justify-content-between align-items-center">
                                                     <input type='text' readOnly={true} className="form-control shadow-none" style={{ height: '50px' }} value={birthdateCalc} />
                                                     &nbsp;&nbsp;<span style={{ fontSize: '12px', textAlign: 'center' }}>idade até 31 de Maio</span>

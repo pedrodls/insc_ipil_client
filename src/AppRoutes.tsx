@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Outlet, Route, Routes } from 'react-router-dom'
-import { Index, Login, SignUp, Home, Information, AttachPayment, Contact, Dashboard, UserAccount } from './environments/elements'
+import { Index, Login, SignUp, Home, Information, AttachPayment, Contact, Dashboard, UserAccount, DashboardPage, GuidesPage } from './environments/elements'
 
 function AppRoutes() {
 
@@ -21,8 +21,8 @@ function AppRoutes() {
 
         <Route path="/admin/new_account" element={<UserAccount />} />
 
-        <Route path="/dashboard" element={<Outlet />}>
-          <Route path="guides" element={<Home />} />
+        <Route path="/dashboard" element={<DashboardPage />}>
+          <Route path="guides" element={<GuidesPage />} />
           <Route path="validate_payment" element={<Information />} />
           <Route path="attach_valid_payment" element={<AttachPayment />} />
         </Route>
