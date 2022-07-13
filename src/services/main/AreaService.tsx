@@ -1,4 +1,4 @@
-import { AppService } from "../AppService";
+import { AppService } from "../../environments/services";
 
 export class AreaService extends AppService{
     constructor(){
