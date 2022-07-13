@@ -1,4 +1,4 @@
-export class AreaModel {
+export default class AreaModel {
     constructor () {
 
     }
