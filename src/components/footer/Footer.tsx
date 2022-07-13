@@ -1,6 +1,7 @@
 import { FaPhone, FaEnvelope, FaMap, FaFacebook, FaWhatsapp, FaInstagram, FaTwitter, FaGlobe } from 'react-icons/fa';
 import styles from './Footer.module.scss';
 import __VARIABLES__ from '../../environments/variables';
+
 export default function Footer() {
     return (<>
         <footer className={styles.footer}>
