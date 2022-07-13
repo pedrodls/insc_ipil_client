@@ -1,4 +1,5 @@
 //----------------------Pages Documents--------------------------
+
 import Index from "../pages/index/Index";
 import Login from '../pages/login/Login';
 import SignUp from '../pages/signup/SignUp';
@@ -8,6 +9,8 @@ import AttachPayment from "../pages/attach-payment/AttachPayment";
 import Contact from "../pages/contact/Contact";
 import Home from "../pages/home/Home";
 
+import { DashboardPage } from "../pages/dashboards/Dashboard";
+import { GuidesPage } from "../pages/dashboards/guides/Guides";
 
 //ADMIN DASHBOARD
 
@@ -28,11 +31,13 @@ import Spinner from '../components/spinner/Spinner';
 
 import { CardSignUp, CardGuides } from '../components/card/Card';
 
-
 //---------------------------------------------------------------
 
 export { UserAccount };
-export { Index, Login, SignUp, Information, AttachPayment, Contact, Home };
+
+export { Index, Login, SignUp, Information, AttachPayment, Contact, Home, GuidesPage, DashboardPage };
+
 export { Dashboard };
+
 export { Navbar, Form, Input, InputDate, InputFile, Button, Select, Footer, CardSignUp, Spinner, CardGuides }
 
