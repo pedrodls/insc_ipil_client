@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navbar, InputFile, InputDate, Input, Select, Footer, CardSignUp, Button  } from '../../environments/elements';
+import { Navbar, InputFile, InputDate, Input, Select, Footer, CardSignUp, Button } from '../../environments/elements';
 import { ERROR_STATE } from '../../environments/states';
 import styles from './SignUp.module.scss';
 import { FaArrowLeft, FaArrowRight, FaBoxOpen } from 'react-icons/fa';
@@ -69,7 +69,7 @@ export default function SignUp() {
         setError(new ERROR_STATE)
     } //método executado quando input muda
     const handleSubmit = () => { //método executado quando clicado no Próximo                    
-        if(filesLength != 2){
+        if (filesLength != 2) {
             setError({ show: true, color: '', message: 'Anexe 2 ficheiros .PDF cada um com < 2.41MB' });
             return false;
         }
@@ -91,7 +91,7 @@ export default function SignUp() {
             } //maior que 2,41MB
             else
                 stageHandle(e.target.files[0]);
-                        
+
             console.log(filesUploaded)
         } catch (error) {
             stageHandle(null)
@@ -179,21 +179,34 @@ export default function SignUp() {
                                         {/*errors.email?.message*/}
 
                                         <div className="col-md-12 col-lg-6">
+
                                             <Input registerYup={register1} text="Nº do Bilhete" id="educatorBI" type="text" name="educatorBI" placeholder="" _class="signup" handleEvent={handleChange} maxLength={14} />
+
                                             <Input registerYup={register1} text="Nome Completo" type="text" name="educatorFullName" placeholder="" _class="signup" handleEvent={handleChange} />
+
                                             <Select registerYup={register1} text="Parentesto" id="kinship" _options={[{ id: 'Mãe', name: 'Mãe' }, { id: 'Pai', name: 'Pai' }]} handle={handleSelect} _class="signup" />
+
                                         </div>
                                         <div className="col-md-12 col-lg-6">
+
                                             <Input registerYup={register1} text="Município" id="educatorCity" type="text" name="educatorCity" _class="signup" handleEvent={handleChange} />
+
                                             <Input registerYup={register1} text="Email" type="email" name="email" placeholder="" _class="signup" handleEvent={handleChange} />
+
                                             <p className="mb-3">Contacto(s)</p>
+
                                             <div className={`inputInvisible d-flex align-items-center mb-4`}>
+
                                                 <div style={{ width: '48%' }}>
+
                                                     <Input registerYup={register1} text="" placeholder="Contacto" id="telephone1" type="tel" name="telephone1" _class="invisible" handleEvent={handleChange} />
+
                                                 </div>
                                                 |
                                                 <div style={{ width: '48%' }}>
+
                                                     <Input registerYup={register1} text="" placeholder="Contacto 2 (opcional)" id="telephone2" type="tel" name="telephone2" _class="invisible" handleEvent={handleChange} />
+
                                                 </div>
                                             </div>
                                         </div>
@@ -201,7 +214,13 @@ export default function SignUp() {
                                         {(Object.keys(errors1).length > 0 || error.show) && <Stack spacing={3}>
                                             <Alert status='error' className="text-center">
                                                 <><AlertIcon />
-                                                    {errors1.educatorBI?.message || errors1.educatorFullName?.message || errors1.educatorCity?.message || errors1.email?.message || errors1.telephone1?.message || errors1.telephone2?.message || error.message}
+                                                    {
+                                                        /*---------------------*
+                                                        Melhorar este código!!!!!
+                                                        -----------------*/
+
+                                                        errors1.educatorBI?.message || errors1.educatorFullName?.message || errors1.educatorCity?.message || errors1.email?.message || errors1.telephone1?.message || errors1.telephone2?.message || error.message
+                                                    }
                                                 </>
                                             </Alert>
                                         </Stack>}
@@ -219,8 +238,11 @@ export default function SignUp() {
                                         <div className="col-md-12 col-lg-6">
                                             <p className="">Data de Nascimento</p>
                                             <div className="d-flex justify-content-between">
+
                                                 <InputDate maxDate={moment().subtract(14, 'years').format('YYYY-MM-DD')} minDate={moment().subtract(20, 'years').format('YYYY-MM-DD')} registerYup={register2} text="" id="birthdate" type="date" name="birthdate" _class="signup" handleEvent={handleChange} />
+
                                                 &nbsp;&nbsp;
+                                                
                                                 <div className="d-flex justify-content-between align-items-center">
                                                     <input type='text' readOnly={true} className="form-control shadow-none" style={{ height: '50px' }} value={birthdateCalc} />
                                                     &nbsp;&nbsp;<span style={{ fontSize: '12px', textAlign: 'center' }}>idade até 31 de Maio</span>
@@ -336,7 +358,7 @@ export default function SignUp() {
                                             <div className="">
                                                 <InputFile text="Anexo de Certificado" id="scheduleCertificado" accept=".pdf" name="scheduleCertificado" _class="default" handleEvent={handleFile} />
                                             </div>
-                                        </div>                                        
+                                        </div>
                                         <div className="d-flex flex-column align-items-center justify-content-center">
                                             <FaBoxOpen className="" size="100" color="gainsboro" />
                                             <div className={styles.filesUploaded}>{filesLength}</div>
