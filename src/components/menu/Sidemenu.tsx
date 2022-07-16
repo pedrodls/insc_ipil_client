@@ -4,7 +4,7 @@ import { useRef } from "react"
 import { HiMenuAlt1 } from 'react-icons/hi'
 import { mainListItems, secondaryListItems } from "../Admin/NavItems/listItems"
 
-export default function <SideMenu>() {
+export default function SideMenu() {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -69,4 +69,15 @@ export default function <SideMenu>() {
       </Drawer>
     </>
   )
+}
+
+export function GuidesDashboardSideMenu() {
+
+    
+  return <>
+  
+      Guides Side Menu
+
+  </>
+  
 }

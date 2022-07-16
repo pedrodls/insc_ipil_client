@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { Logo } from '../../environments/imgs';
 import Sidemenu from '../menu/Sidemenu';
-import { Button } from '@chakra-ui/react';
+import { Avatar, Badge, Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import __VARIABLES__ from '../../environments/variables';
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
@@ -76,15 +76,33 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
                                 </li>
                             </ul>
                         </div>
+
                         <Button onClick={() => navigate('/login')} className={'border-0 me-3'} colorScheme={__VARIABLES__._orange_default_btn_}>
                             Entrar
                         </Button>
-                        <Button onClick={() => navigate('/login')} className={'border-0 me-3'} colorScheme={__VARIABLES__._orange_default_btn_}>
-                            logado
+
+                        <Button onClick={() => navigate('/login')} className={'border-0 me-3'} colorScheme={'transparent'}>
+
+                            <Flex className='text-dark'>
+                                <Avatar src='https://bit.ly/sage-adebayo' />
+                               
+                            </Flex>
                         </Button>
+
                     </div>
                 </div>
             </nav>
         </>
     )
+}
+
+export function GuidesDashboardNavbar() {
+
+
+    return <>
+
+        Guides Navbar
+
+    </>
+
 }
