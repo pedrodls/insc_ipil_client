@@ -1,7 +1,6 @@
 export default class AreaModel {
-    constructor () {
 
-    }
+
     id!: string;
 
     name!: string;
@@ -14,6 +13,10 @@ export default class AreaModel {
 
     createdAt!: string;
 
-    updatedAt!: string;    
+    updatedAt!: string; 
+
+    constructor () {
+
+    }
     
 }
