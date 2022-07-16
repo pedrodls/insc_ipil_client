@@ -16,6 +16,22 @@ export const userAuthAccount = () => {
     return localStorage && localStorage.token && localStorage.authAccount;
 }
 
+export const SuperProtectedRoutes = () => {
+
+    const isAuth =  userAuthAccount();
+
+    return isAuth ? <Outlet /> :  <Navigate to='/' />;
+
+}
+
+export const UnProtectedRoutes = () => {
+
+    const isAuth =  userAuthAccount();
+
+    return !isAuth ? <Outlet /> : <Navigate to='/dashboard' />;
+
+}
+
 const ProtectedRoutes =  () => {
 
     const isAuth =  userAuthAccount();
