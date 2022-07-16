@@ -4,7 +4,7 @@ import { User } from "../../models/user";
 
 export class LocalStorageService {
 
-  STORAGE_KEY = 'local_notaipil';
+  STORAGE_KEY = 'local_inscpil';
 
   constructor() {
   }
