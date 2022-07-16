@@ -13,6 +13,7 @@ import moment from 'moment';
 //services request
 import {AreaService} from '../../environments/services';
 //models request
+
 import {AreaModel} from '../../environments/models';
 
 function ButtonChoose(index: number, setIndex: any) {
@@ -227,6 +228,7 @@ export default function SignUp() {
                                             <Alert status='error' className="text-center">
                                                 <><AlertIcon />
                                                     {
+                                                        
                                                         /*---------------------*
                                                         Melhorar este código!!!!!
                                                         -----------------*/
