@@ -6,7 +6,7 @@ export class CourseService extends AppService{
         super('main/courses')
     }    
 
-    public async oneByAreaId(areaId: string){
+    public async allByAreaId(areaId: string){
         return await AxiosConfig.get(`${this.url}/area/${areaId}`);
     }
 }
