@@ -1,7 +1,7 @@
 
 import moment from 'moment'
 
-import { CardSignUp, CardGuides, Input, Select, InputDate } from '../../../environments/elements'
+import { CardSignUp, CardGuides, Input, Select, InputDate, Button } from '../../../environments/elements'
 
 import styles from './Guides.module.scss'
 
@@ -37,10 +37,17 @@ export function GuidesPage() {
 
 
                             </div>
-                            
+
                         </div>
 
+                        <div className="row">
+                            <div className="col d-flex justify-content-end m-2">
 
+                                <Button text={'Enviar'}
+                                    type="submit" _class="defaultYellow" />
+
+                            </div>
+                        </div>
                     </CardGuides>
 
                 </div>

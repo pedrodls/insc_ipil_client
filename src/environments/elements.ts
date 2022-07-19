@@ -28,7 +28,7 @@ import { InputFile } from '../components/input/Input';
 import Button from '../components/button/Button';
 import Select from '../components/select/Select';
 import Spinner from '../components/spinner/Spinner';
-import {SpinnerSignUp} from '../components/spinner/Spinner';
+import { SpinnerSignUp } from '../components/spinner/Spinner';
 
 import { CardSignUp, CardGuides } from '../components/card/Card';
 

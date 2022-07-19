@@ -2,8 +2,6 @@ import { AreaModel } from "../environments/models";
 
 export default class CourseModel {
     
-    constructor() {}
-
     id!: string;
     name!: string;
 	code!: string;
@@ -11,5 +9,9 @@ export default class CourseModel {
     createdAt!: string;
     updatedAt!: string;
     areaId!: string;
-    area!: AreaModel						
+    area!: AreaModel
+    
+    constructor() {}
+
+   						
 }

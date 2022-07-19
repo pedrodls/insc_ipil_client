@@ -1,11 +1,13 @@
 import styles from './Home.module.scss';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import __VARIABLES__ from '../../environments/variables';
 import { FaArrowUp } from 'react-icons/fa';
 import { Button, Heading } from '@chakra-ui/react';
 
 export default function Home() {
+
+   
     return (
         <>
             <div className={`${styles.buttonUp}`}>

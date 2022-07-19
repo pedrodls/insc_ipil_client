@@ -299,6 +299,11 @@ export default function SignUp() {
                                             <Alert status='error' className="text-center">
                                                 <><AlertIcon />
                                                     {
+                                                        
+                                                        /*---------------------*
+                                                        Melhorar este código!!!!!
+                                                        -----------------*/
+
                                                         errors1.educatorBI?.message || errors1.educatorFullName?.message || errors1.educatorCity?.message || errors1.email?.message || errors1.telephone1?.message || errors1.telephone2?.message || error.message
                                                     }
                                                 </>
