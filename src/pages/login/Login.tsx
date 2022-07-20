@@ -1,20 +1,82 @@
-import  { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import { FaKey, FaEnvelope } from 'react-icons/fa';
-import {Form, Input, Button, Footer} from '../../environments/elements';
+import { Form, Input, Button, Footer } from '../../environments/elements';
+import { LoginModel } from '../../environments/models';
+import { userAuthAccount } from '../../ProtectedRoutes';
+import { AuthService } from '../../environments/services';
 
-export default function Login() { 
-       
+export default function Login() {
+
     const [error, setError] = useState({ show: false, message: '' });
     const [spinner, setSpinner] = useState(false);
 
-    const handleSubmit = () => { }
-    const handleChange = () => { }
-    
+    let navigate = useNavigate()
+
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [])
+
+        if (userAuthAccount())
+            navigate('/dashboard')
+
+        window.scroll(0, 0)
+
+    }, [0])
+
+    const authService = new AuthService()
+
+    let [
+        state = {
+            data: new LoginModel()
+        },
+        setState
+    ] = useState<any>()
+
+
+    let handleSubmit = async (e: any) => {
+
+        e.preventDefault()
+
+        if (state.data.password && state.data.email) {
+
+            setError({ message: '', show: false })
+
+            setSpinner(true)
+
+            await authService.authenticate(state.data).then(data => {
+
+                setError({ message: '', show: false })
+
+                setSpinner(false)
+
+            }).catch((e) => {
+
+                if (e.response && e.response.data)
+                    setError({message: e.response.data.message, show: true})
+                else
+                    setError({ message: 'Erro no servidor', show: true })
+
+                setSpinner(false)
+
+            });
+
+
+        } else
+            setError({ message: 'Campo email ou password vazio', show: true })
+
+    }
+
+    let handleChange = (e: any) => {
+
+        let data = { ...state.data };
+
+        let { name, value } = e.target
+
+        data[name] = value;
+
+        setState({ data: data })
+
+    }
 
     return (
         <>
