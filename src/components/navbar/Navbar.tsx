@@ -81,13 +81,6 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
                             Entrar
                         </Button>
 
-                        <Button onClick={() => navigate('/login')} className={'border-0 me-3'} colorScheme={'transparent'}>
-
-                            <Flex className='text-dark'>
-                                <Avatar src='https://bit.ly/sage-adebayo' />
-                               
-                            </Flex>
-                        </Button>
 
                     </div>
                 </div>
