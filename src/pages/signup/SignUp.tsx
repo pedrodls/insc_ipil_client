@@ -1,19 +1,20 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar, InputFile, InputDate, Input, Select, Footer, CardSignUp, Button, SpinnerSignUp } from '../../environments/elements';
 import __VARIABLES__ from '../../environments/variables';
 import { ERROR_STATE, APRESENTATION_STATE } from '../../environments/states';
 import styles from './SignUp.module.scss';
-import { FaArrowLeft, FaArrowRight, FaBoxOpen, FaCheckCircle } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaBoxOpen, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Carousel } from 'react-bootstrap';
 import { schemaStage1, schemaStage2, schemaStage3 } from '../../environments/schemas';
 import { Alert, AlertIcon, Stack, Button as ButtonUI } from '@chakra-ui/react';
 import moment from 'moment';
+import {useNavigate} from 'react-router-dom';
 //services request
-import { AreaService, TownService, CourseService, AuthService } from '../../environments/services';
+import { AreaService, TownService, CourseService, AuthService, SubjectApplyService } from '../../environments/services';
 //models request
-import { AreaModel, TownModel, CourseModel } from '../../environments/models';
+import { AreaModel, TownModel, CourseModel, SubjectApplyModel } from '../../environments/models';
 
 import {
     Modal,
@@ -45,18 +46,21 @@ function ButtonChoose(index: number, setIndex: any) {
 }
 
 export default function SignUp() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { onClose } = useDisclosure()
+    const navigate = useNavigate();
     //
     const authServices = new AuthService();
     //instancia dos serviços
     const areaServices = new AreaService();
     const townServices = new TownService();
     const courseServices = new CourseService();
+    const subjectApplyServices = new SubjectApplyService();
 
     const [areas, setAreas] = useState<Array<AreaModel>>([]);
     const [selected, setSelected] = useState<any>({}); //elementos selecionados
     const [towns, setTowns] = useState<Array<TownModel>>([]);
     const [courses, setCourses] = useState<Array<CourseModel>>([]);
+    const [subjectApply, setSubjectApply] = useState<Array<SubjectApplyModel>>([]);
 
     //---------------------Declaration Session---------------------------------------------------------------
     const [spinner, setSpinner] = useState<Array<boolean>>([false, false]);
@@ -67,7 +71,7 @@ export default function SignUp() {
     const [birthdateCalc, setBirthdateCalc] = useState<string>('') //variável que guarda o cálculo da idade dele
     const [filesUploaded, setFilesUploaded] = useState([null, null]) //variável que guarda oS ficheiros submetidos
     const [filesLength, setFilesLength] = useState<number>(0) //variável que guarda o cálculo da idade dele    
-    const [modal, setModal] = useState<boolean>(true);
+    const [modal, setModal] = useState(new ERROR_STATE());
 
     //configurando react-hook-form com os schemas yup
     const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({ resolver: yupResolver(schemaStage1) });
@@ -82,6 +86,8 @@ export default function SignUp() {
             }).catch(e => console.log(e));
 
             await townServices.getAll().then(data => setTowns(data.data.data)).catch(e => console.log(e));
+            await subjectApplyServices.allActive().then(data => console.log(data.data.data)).catch(e => console.log(e));
+            
             setApresentation({ ...apresentation, show1: true });
         })();
     }, []);
@@ -133,8 +139,11 @@ export default function SignUp() {
             setError({ show: true, color: '', message: 'Anexe 2 ficheiros .PDF cada um com < 2.41MB' });
             return false;
         }
-        const response = await authServices.signUp({ ...signup, scheduleBI: filesUploaded[0], scheduleCertificado: filesUploaded[1] }).then(data => data.data).catch(e => console.log(e));
+        setSpinner(() => [false, true]);
+        const response = await authServices.signUp({ ...signup, scheduleBI: filesUploaded[0], scheduleCertificado: filesUploaded[1] }).then(data => data.data).catch(e => e.response.data);
         console.log(response);
+        setSpinner(() => [false, false]);
+        setModal({message: response.message, show: true, color: response.error ? 'danger' : 'success'});        
     }
 
     const handleSelect = (e: any) => {
@@ -170,19 +179,26 @@ export default function SignUp() {
                 <div className="row">
                     <div className={`${styles['content-form']} d-flex justify-content-center mb-4`}>
 
-                        <h1>Painel</h1>
-                        <Modal onClose={onClose} isCentered isOpen={!modal} motionPreset='slideInBottom'>
+                        <Modal onClose={onClose} isCentered isOpen={modal.show} motionPreset='slideInBottom'>
                             <ModalOverlay />
                             <ModalContent>
-                                <ModalHeader>Resultado da Inscrição</ModalHeader>                                
-                                <ModalBody>
-                                    <FaCheckCircle size="50" color={'#4CAF50'}/>
-                                    Inscrição realizada com Sucesso!
+                                <ModalHeader className="text-center">
+                                    <div className="d-flex flex-column align-items-center">
+                                        {modal.color === 'success' ?
+                                            <FaCheckCircle className="text-center mb-4" size="50" color={__VARIABLES__._green_default_btn_} />
+                                            :
+                                            <FaExclamationCircle className="text-center mb-4" size="50" color={__VARIABLES__._orange_default_btn_} />
+                                        }
+                                        Resultado da Inscrição
+                                    </div>
+                                </ModalHeader>
+                                <ModalBody className="text-center">
+                                    {modal.message}
                                 </ModalBody>
-                                <ModalFooter>
-                                    <ButtonUI colorScheme='blue' mr={3} onClick={onClose}>
+                                <ModalFooter className="text-center">
+                                    <ButtonUI colorScheme='blue' mr={3} onClick={() => {modal.color === 'danger' ? setModal({...modal, show: false}) : navigate('/')}}>
                                         OK
-                                    </ButtonUI>                                    
+                                    </ButtonUI>
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
@@ -299,7 +315,7 @@ export default function SignUp() {
                                             <Alert status='error' className="text-center">
                                                 <><AlertIcon />
                                                     {
-                                                        
+
                                                         /*---------------------*
                                                         Melhorar este código!!!!!
                                                         -----------------*/
@@ -453,7 +469,7 @@ export default function SignUp() {
                                         <Alert status='error' className="text-center">
                                             <><AlertIcon />
                                                 {error.message}
-                                            </>
+                                            </> 
                                         </Alert>
                                     </Stack>}
                                     <div className="d-flex justify-content-between m-2">

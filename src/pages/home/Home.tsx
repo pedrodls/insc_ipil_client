@@ -1,13 +1,15 @@
 import styles from './Home.module.scss';
-
-import { Link, useNavigate } from 'react-router-dom';
+import {useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import __VARIABLES__ from '../../environments/variables';
 import { FaArrowUp } from 'react-icons/fa';
 import { Button, Heading } from '@chakra-ui/react';
 
 export default function Home() {
 
-   
+   useEffect(() => {
+        window.scrollTo(0,0);
+   },[])
     return (
         <>
             <div className={`${styles.buttonUp}`}>
