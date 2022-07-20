@@ -13,7 +13,6 @@ export class AuthService extends AppService {
   }
 
   public async authenticate(o: UserModel) {
-
     let service = await AxiosConfig.post<UserModel>(this.url + '/authenticate', o)
 
     this.loggedIn(service.data)
@@ -43,6 +42,10 @@ export class AuthService extends AppService {
 
   signOut() {
     return this.localStorageService.removeSession()
+  }
+
+  public async signUp(o: {}){
+    return AxiosConfig.post(environment.serverAddress+'applications/applys', o, this.headers);
   }
 
   userData(o: {}) {

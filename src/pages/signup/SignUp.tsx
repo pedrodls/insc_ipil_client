@@ -3,17 +3,28 @@ import { Navbar, InputFile, InputDate, Input, Select, Footer, CardSignUp, Button
 import __VARIABLES__ from '../../environments/variables';
 import { ERROR_STATE, APRESENTATION_STATE } from '../../environments/states';
 import styles from './SignUp.module.scss';
-import { FaArrowLeft, FaArrowRight, FaBoxOpen } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaBoxOpen, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Carousel } from 'react-bootstrap';
 import { schemaStage1, schemaStage2, schemaStage3 } from '../../environments/schemas';
-import { Alert, AlertIcon, Stack } from '@chakra-ui/react';
+import { Alert, AlertIcon, Stack, Button as ButtonUI } from '@chakra-ui/react';
 import moment from 'moment';
+import {useNavigate} from 'react-router-dom';
 //services request
-import { AreaService, TownService, CourseService } from '../../environments/services';
+import { AreaService, TownService, CourseService, AuthService, SubjectApplyService } from '../../environments/services';
 //models request
-import { AreaModel, TownModel, CourseModel } from '../../environments/models';
+import { AreaModel, TownModel, CourseModel, SubjectApplyModel } from '../../environments/models';
+
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    useDisclosure,
+} from '@chakra-ui/react'
 
 function ButtonChoose(index: number, setIndex: any) {
     return (<>
@@ -33,15 +44,23 @@ function ButtonChoose(index: number, setIndex: any) {
         </nav>
     </>)
 }
+
 export default function SignUp() {
+    const { onClose } = useDisclosure()
+    const navigate = useNavigate();
+    //
+    const authServices = new AuthService();
     //instancia dos serviços
     const areaServices = new AreaService();
     const townServices = new TownService();
     const courseServices = new CourseService();
+    const subjectApplyServices = new SubjectApplyService();
 
     const [areas, setAreas] = useState<Array<AreaModel>>([]);
+    const [selected, setSelected] = useState<any>({}); //elementos selecionados
     const [towns, setTowns] = useState<Array<TownModel>>([]);
     const [courses, setCourses] = useState<Array<CourseModel>>([]);
+    const [subjectApply, setSubjectApply] = useState<Array<SubjectApplyModel>>([]);
 
     //---------------------Declaration Session---------------------------------------------------------------
     const [spinner, setSpinner] = useState<Array<boolean>>([false, false]);
@@ -52,6 +71,7 @@ export default function SignUp() {
     const [birthdateCalc, setBirthdateCalc] = useState<string>('') //variável que guarda o cálculo da idade dele
     const [filesUploaded, setFilesUploaded] = useState([null, null]) //variável que guarda oS ficheiros submetidos
     const [filesLength, setFilesLength] = useState<number>(0) //variável que guarda o cálculo da idade dele    
+    const [modal, setModal] = useState(new ERROR_STATE());
 
     //configurando react-hook-form com os schemas yup
     const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({ resolver: yupResolver(schemaStage1) });
@@ -59,24 +79,26 @@ export default function SignUp() {
     const { register: register3, handleSubmit: handleSubmit3, formState: { errors: errors3 } } = useForm({ resolver: yupResolver(schemaStage3) });
 
     useEffect(() => {
-        areaServices.getAll().then(data => setAreas(data.data.data)).catch(e => console.log(e));
-        townServices.getAll().then(data => setTowns(data.data.data)).catch(e => console.log(e));
-        setApresentation({...apresentation, show1: true});        
+        (async function () {
+            await areaServices.getAll().then(data => {
+                setAreas(data.data.data);
+                selected.area = data.data.data.length > 0 ? data.data.data[0].id : '';
+            }).catch(e => console.log(e));
+
+            await townServices.getAll().then(data => setTowns(data.data.data)).catch(e => console.log(e));
+            await subjectApplyServices.allActive().then(data => console.log(data.data.data)).catch(e => console.log(e));
+            
+            setApresentation({ ...apresentation, show1: true });
+        })();
     }, []);
 
-    useEffect(() => {
-        console.log(areas);
-    }, [areas]);
-
     //----------------------Function Session----------------------------------------
-    const handleSearchGuide = async() => {
+    const handleSearchGuide = async () => {
         setSpinner(() => [true, false]);
-        //trazer cursos só dessa área
-        await courseServices.getAll().then(data => {console.log('dentro'); setCourses(data.data.data)}).catch(e => console.log(e));
-        
+        await courseServices.allByAreaId(selected.area).then(data => { setCourses(data.data.data) }).catch(e => console.log(e));
+
         setSpinner(() => [false, false])
         setIndex(1);
-        console.log('fora');
         //procurar guias
     }
 
@@ -85,8 +107,16 @@ export default function SignUp() {
             setError({ show: true, color: '', message: 'Campo Contacto 2 no Formato Incorrecto' });
             return false;
         }
-        if (index === 1 && data.educatorTown.length === 0)
-            data.educatorTown = towns[0].id;
+        if (index === 1 && data.educatorTownId.length === 0)
+            data.educatorTownId = towns.length > 0 ? towns[0].id : '';
+        if (index === 2 && data.townId.length === 0)
+            data.townId = towns.length > 0 ? towns[0].id : '';
+        if (index === 3) { //se as opções não estiverem de acordo com os cursos das áreas escolhidas então eles serão a primeira opção da área escolhida. No caso de selecionar uma opção e depois trocar sua área
+            if (courses.map(c => c.id).indexOf(data.cmbCourse1) < 0)
+                data.cmbCourse1 = courses.length === 0 ? '' : courses[0].id;
+            if (courses.map(c => c.id).indexOf(data.cmbCourse2) < 0)
+                data.cmbCourse2 = courses.length === 0 ? '' : courses[0].id;
+        }
 
         window.scrollTo(0, 0);
         if (index === 1 || index === 2 || index === 3) {
@@ -103,14 +133,23 @@ export default function SignUp() {
 
         setError(new ERROR_STATE)
     } //método executado quando input muda
-    const handleSubmit = () => { //método executado quando clicado no Próximo                    
+
+    const handleSubmit = async () => { //método executado quando clicado no Próximo                    
         if (filesLength != 2) {
             setError({ show: true, color: '', message: 'Anexe 2 ficheiros .PDF cada um com < 2.41MB' });
             return false;
         }
-        console.log(signup);
+        setSpinner(() => [false, true]);
+        const response = await authServices.signUp({ ...signup, scheduleBI: filesUploaded[0], scheduleCertificado: filesUploaded[1] }).then(data => data.data).catch(e => e.response.data);
+        console.log(response);
+        setSpinner(() => [false, false]);
+        setModal({message: response.message, show: true, color: response.error ? 'danger' : 'success'});        
     }
-    const handleSelect = () => { }
+
+    const handleSelect = (e: any) => {
+        if (e.target.id === 'cmbArea')
+            selected.area = e.target.value;
+    }
 
     const handleFile = async (e: any) => {
         setError(new ERROR_STATE);
@@ -127,7 +166,6 @@ export default function SignUp() {
             else
                 stageHandle(e.target.files[0]);
 
-            console.log(filesUploaded)
         } catch (error) {
             stageHandle(null)
             console.log(error)
@@ -140,6 +178,31 @@ export default function SignUp() {
             <section className={`${styles['container-signup']} container`}>
                 <div className="row">
                     <div className={`${styles['content-form']} d-flex justify-content-center mb-4`}>
+
+                        <Modal onClose={onClose} isCentered isOpen={modal.show} motionPreset='slideInBottom'>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader className="text-center">
+                                    <div className="d-flex flex-column align-items-center">
+                                        {modal.color === 'success' ?
+                                            <FaCheckCircle className="text-center mb-4" size="50" color={__VARIABLES__._green_default_btn_} />
+                                            :
+                                            <FaExclamationCircle className="text-center mb-4" size="50" color={__VARIABLES__._orange_default_btn_} />
+                                        }
+                                        Resultado da Inscrição
+                                    </div>
+                                </ModalHeader>
+                                <ModalBody className="text-center">
+                                    {modal.message}
+                                </ModalBody>
+                                <ModalFooter className="text-center">
+                                    <ButtonUI colorScheme='blue' mr={3} onClick={() => {modal.color === 'danger' ? setModal({...modal, show: false}) : navigate('/')}}>
+                                        OK
+                                    </ButtonUI>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
+
                         <CardSignUp>
                             {index !== 0 && <>
                                 <nav className={styles.pagination}>
@@ -172,7 +235,7 @@ export default function SignUp() {
                                             </div>
                                         </div>
                                         <div className={`mt-4 mb-4`}>
-                                            <Select text="" id="cmbSexo" _options={areas} handle={handleSelect} _class="signup" />
+                                            <Select text="" id="cmbArea" _options={areas} handle={handleSelect} _class="signup" />
                                         </div>
                                         <table className={`table table-borderless table-responsible ${styles.table}`} style={{ verticalAlign: 'middle', marginTop: '4em' }}>
                                             <thead className="text-center">
@@ -227,7 +290,7 @@ export default function SignUp() {
                                             <Select registerYup={register1} text="Parentesto" id="kinship" _options={__VARIABLES__._kinship_} handle={handleSelect} _class="signup" />
                                         </div>
                                         <div className="col-md-12 col-lg-6">
-                                            <Select registerYup={register1} text="Município" id="educatorTown" _options={towns} handle={handleSelect} _class="signup" />
+                                            <Select registerYup={register1} text="Município" id="educatorTownId" _options={towns} handle={handleSelect} _class="signup" />
                                             <Input registerYup={register1} text="Email" type="email" name="email" placeholder="" _class="signup" handleEvent={handleChange} />
 
                                             <p className="mb-3">Contacto(s)</p>
@@ -252,7 +315,7 @@ export default function SignUp() {
                                             <Alert status='error' className="text-center">
                                                 <><AlertIcon />
                                                     {
-                                                        
+
                                                         /*---------------------*
                                                         Melhorar este código!!!!!
                                                         -----------------*/
@@ -280,14 +343,14 @@ export default function SignUp() {
                                                 <InputDate maxDate={moment().subtract(14, 'years').format('YYYY-MM-DD')} minDate={moment().subtract(20, 'years').format('YYYY-MM-DD')} registerYup={register2} text="" id="birthdate" type="date" name="birthdate" _class="signup" handleEvent={handleChange} />
 
                                                 &nbsp;&nbsp;
-                                                
+
                                                 <div className="d-flex justify-content-between align-items-center">
                                                     <input type='text' readOnly={true} className="form-control shadow-none" style={{ height: '50px' }} value={birthdateCalc} />
                                                     &nbsp;&nbsp;<span style={{ fontSize: '12px', textAlign: 'center' }}>idade até 31 de Maio</span>
                                                 </div>
                                             </div>
 
-                                            <Select registerYup={register1} text="Município" id="town" _options={towns} handle={handleSelect} _class="signup" />
+                                            <Select registerYup={register2} text="Município" id="townId" _options={towns} handle={handleSelect} _class="signup" />
                                             <Input registerYup={register2} text="Endereço" id="address" type="text" name="address" _class="signup" handleEvent={handleChange} />
                                         </div>
 
@@ -316,11 +379,11 @@ export default function SignUp() {
                                                 <hr className="row-global" />
                                                 <div className="text-center d-flex justify-content-between align-items-center">
                                                     <b>1ª Opção</b>
-                                                    <Select registerYup={register3} text="" id="cmbCourse1" _options={[{ id: 'Técnico de Informática', name: 'Técnico de Informática' }, { id: 'Técnico de Gestão de Sistemas Informáticos', name: 'Técnico de Gestão de Sistemas Informáticos' }]} handle={handleSelect} _class="signup" />
+                                                    <Select registerYup={register3} text="" id="cmbCourse1" _options={courses} handle={handleSelect} _class="signup" />
                                                 </div>
                                                 <div className="text-center d-flex justify-content-between align-items-center mt-2">
                                                     <b>2ª Opção</b>
-                                                    <Select registerYup={register3} text="" id="cmbCourse2" _options={[{ id: 'Técnico de Informática', name: 'Técnico de Informática' }, { id: 'Técnico de Gestão de Sistemas Informáticos', name: 'Técnico de Gestão de Sistemas Informáticos' }]} handle={handleSelect} _class="signup" />
+                                                    <Select registerYup={register3} text="" id="cmbCourse2" _options={courses} handle={handleSelect} _class="signup" />
                                                 </div>
                                             </div>
                                         </div>
@@ -406,28 +469,19 @@ export default function SignUp() {
                                         <Alert status='error' className="text-center">
                                             <><AlertIcon />
                                                 {error.message}
-                                            </>
+                                            </> 
                                         </Alert>
                                     </Stack>}
                                     <div className="d-flex justify-content-between m-2">
                                         <button type="button" className="btn btn-light text-primary" onClick={() => setIndex(index - 1)}>
                                             <div className="d-flex flex-column align-items-center">Anterior<FaArrowLeft /></div>
                                         </button>
-                                        <Button text={spinner ? (<><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Aguarde...</>) : 'Enviar'}
-                                            type="submit" _class="defaultYellow" handle={handleSubmit} disabled={spinner} />
+                                        <Button text={spinner[1] ? (<><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> A Enviar...</>) : 'Enviar'}
+                                            type="submit" _class="defaultYellow" handle={handleSubmit} disabled={spinner[1]} />
                                     </div>
                                 </Carousel.Item>
                             </Carousel>
                         </CardSignUp>
-
-
-
-                        {/*<form onSubmit={handleSubmit(onSubmit)}>
-                            <input type="text" className="form-control" {...register('fullName', { required: true, pattern: /^\w$/ })} />
-                            <input type="text" className="form-control" {...register('bi', { required: true, minLength: 14 })} />
-                            <input type="submit" className="btn btn-danger" />
-                            {errors.fullName && <h1 className="text-dark">Nome Errado</h1>}
-                        </form>*/}
                     </div>
                 </div>
             </section>

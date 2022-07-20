@@ -4,11 +4,13 @@ import TownModel from '../models/town';
 import CourseModel from '../models/course';
 import UserModel from '../models/user';
 
+import SubjectApplyModel from '../models/subject-apply';
 
 export {
+    UserModel,
     AreaModel, 
     TownModel,
     CourseModel,
-    UserModel,
+    SubjectApplyModel,
     LoginModel
 };
