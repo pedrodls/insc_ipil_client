@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { User } from "../../models/user";
+import { UserModel } from "../../environments/models";
 
 
 export class LocalStorageService {
@@ -10,7 +10,7 @@ export class LocalStorageService {
   }
 
 
-  public initSession(user: User) {
+  public initSession(user: UserModel) {
 
     const current_user = user;
 
@@ -24,7 +24,7 @@ export class LocalStorageService {
     const current_user = user;
 
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(current_user));
-    
+
   }
 
   public updateSession(token: any) {
@@ -37,11 +37,11 @@ export class LocalStorageService {
   }
 
   public getSession() {
-    return JSON.parse(localStorage.getItem(this.STORAGE_KEY)+"");
+    return JSON.parse(localStorage.getItem(this.STORAGE_KEY) + "");
   }
 
   public removeSession() {
-    
+
     localStorage.clear()
 
     window.location.href = '/'
@@ -51,13 +51,13 @@ export class LocalStorageService {
   }
 
   public typeAccoutSession(typeAccountId: any) {
-    
+
     let user = this.getSession();
 
     user.authAccount = typeAccountId;
 
     this.initSession(user)
-    
+
   }
 
 }
