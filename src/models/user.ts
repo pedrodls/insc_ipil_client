@@ -1,9 +1,9 @@
-export default class User{
-  constructor(){
+export default class UserModel{
 
-  }
 
   id!: string;
+
+  avatar!: string;
 
   email!: string;
 
@@ -14,5 +14,10 @@ export default class User{
   status!: string;
 
   message!: string;
-  
+
+  constructor(){
+
+  }
+
+
 }
