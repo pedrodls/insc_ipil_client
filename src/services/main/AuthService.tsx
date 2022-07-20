@@ -1,5 +1,5 @@
 import { environment } from "../../environments/environment";
-import { User } from "../../models/user";
+import { UserModel } from "../../environments/models";
 import { AxiosConfig } from "../ApiServiceConfig";
 import { AppService } from "../AppService";
 import { LocalStorageService } from "./LocalStorageService";
@@ -9,21 +9,21 @@ export class AuthService extends AppService {
   localStorageService = new LocalStorageService()
 
   constructor() {
-    super('users')
+    super('main/users')
   }
 
-  public async authenticate(o: User) {
-    
-    let service = await AxiosConfig.post<User>(this.url + '/authenticate', o)
+  public async authenticate(o: UserModel) {
+
+    let service = await AxiosConfig.post<UserModel>(this.url + '/authenticate', o)
 
     this.loggedIn(service.data)
 
     return service;
-    
+
   }
 
-  private loggedIn(data: User){
-    
+  private loggedIn(data: UserModel) {
+
     switch (parseInt(data.status)) {
       case 200:
         this.localStorageService.initSession(data);
@@ -34,7 +34,7 @@ export class AuthService extends AppService {
     }
   }
 
-  public async verifyToken(o: User) {
+  public async verifyToken(o: UserModel) {
 
     let service = await AxiosConfig.post(this.url + '/verify_token', o);
 
@@ -81,5 +81,5 @@ export class AuthService extends AppService {
   
 
   */
-  
+
 }
