@@ -6,10 +6,8 @@ const __VARIABLES__ = {
     _institute_email_: 'ipil.makarenko.co.ao',
     _institute_address_: 'Largo Sweto',
     _portal_name_: "INSCIPIL",
-
-
-
-
+    _guide_account: "guide",
+    _admin_account: "admin",
     _kinship_ : [{id: 'Pai', name: 'Pai'},{id: 'Mãe', name: 'Mãe'}, {id: 'Irmã (o)', name:'Irmã (o)'}, {id: 'Tio (a)', name: 'Tio (a)'}],
     _gender_: [{id: 'M', name: 'Masculino'},{id: 'F', name: 'Femenino'}]
 }
