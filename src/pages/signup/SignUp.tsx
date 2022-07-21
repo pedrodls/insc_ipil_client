@@ -10,7 +10,7 @@ import { Carousel } from 'react-bootstrap';
 import { schemaStage1, schemaStage2, schemaStage3 } from '../../environments/schemas';
 import { Alert, AlertIcon, Stack, Button as ButtonUI } from '@chakra-ui/react';
 import moment from 'moment';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 //services request
 import { AreaService, TownService, CourseService, AuthService, SubjectApplyService } from '../../environments/services';
 //models request
@@ -72,6 +72,7 @@ export default function SignUp() {
     const [filesUploaded, setFilesUploaded] = useState([null, null]) //variável que guarda oS ficheiros submetidos
     const [filesLength, setFilesLength] = useState<number>(0) //variável que guarda o cálculo da idade dele    
     const [modal, setModal] = useState(new ERROR_STATE());
+    const [notes, setNotes] = useState<Array<any>>([]);
 
     //configurando react-hook-form com os schemas yup
     const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 } } = useForm({ resolver: yupResolver(schemaStage1) });
@@ -86,8 +87,17 @@ export default function SignUp() {
             }).catch(e => console.log(e));
 
             await townServices.getAll().then(data => setTowns(data.data.data)).catch(e => console.log(e));
-            await subjectApplyServices.allActive().then(data => console.log(data.data.data)).catch(e => console.log(e));
-            
+            //pegando as disciplinas e colocando no state
+            let response = await subjectApplyServices.allActive().then(data => data.data.data).catch(e => console.log(e));
+            setSubjectApply(response);
+            const objSa = [];
+            for (let sa of response)
+                objSa.push({
+                    subjectApplyId: sa.id,
+                    values: ['', '', '']
+                })
+            setNotes(objSa);
+
             setApresentation({ ...apresentation, show1: true });
         })();
     }, []);
@@ -116,6 +126,23 @@ export default function SignUp() {
                 data.cmbCourse1 = courses.length === 0 ? '' : courses[0].id;
             if (courses.map(c => c.id).indexOf(data.cmbCourse2) < 0)
                 data.cmbCourse2 = courses.length === 0 ? '' : courses[0].id;
+            
+            let op = false;
+            for(let note of notes){
+                //avaliando notas de cada classe
+                if(isNaN(note.values[0]) || isNaN(note.values[1]) || isNaN(note.values[2]) || (+note.values[0] < 0 || +note.values[0] > 20) || (+note.values[1] < 0 || +note.values[1] > 20) || (+note.values[2] < 0 || +note.values[2] > 20 || note.values[0].trim().length === 0 || note.values[1].trim().length === 0 || note.values[2].trim().length === 0)){
+                    op = true
+                    break;
+                }
+            }
+            if(op){
+                setError({ show: true, color: '', message: 'Campo deve ser uma nota entre 0 a 20' });
+                return false;
+            }
+            console.log(notes);
+            data.notes = notes //adicionando notas no signup
+
+            //schemaStage4.validate({notes: '-2'}).then(value => console.log('1 - 1', value)).catch(err => console.log('2 - 2', err));      
         }
 
         window.scrollTo(0, 0);
@@ -127,12 +154,16 @@ export default function SignUp() {
         //reset();
     }
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: any) => {        
         if (e.target.name === 'birthdate')
             setBirthdateCalc(moment().diff(e.target.value, 'years').toString()); //cálculo de idade            
 
         setError(new ERROR_STATE)
     } //método executado quando input muda
+    const handleNotes = (e: any, grade: number, subjectOrder: number) => {        
+        notes[subjectOrder].values[grade] = e.target.value;
+        setError(new ERROR_STATE)
+    }
 
     const handleSubmit = async () => { //método executado quando clicado no Próximo                    
         if (filesLength != 2) {
@@ -143,7 +174,7 @@ export default function SignUp() {
         const response = await authServices.signUp({ ...signup, scheduleBI: filesUploaded[0], scheduleCertificado: filesUploaded[1] }).then(data => data.data).catch(e => e.response.data);
         console.log(response);
         setSpinner(() => [false, false]);
-        setModal({message: response.message, show: true, color: response.error ? 'danger' : 'success'});        
+        setModal({ message: response.message, show: true, color: response.error ? 'danger' : 'success' });
     }
 
     const handleSelect = (e: any) => {
@@ -196,7 +227,7 @@ export default function SignUp() {
                                     {modal.message}
                                 </ModalBody>
                                 <ModalFooter className="text-center">
-                                    <ButtonUI colorScheme='blue' mr={3} onClick={() => {modal.color === 'danger' ? setModal({...modal, show: false}) : navigate('/')}}>
+                                    <ButtonUI colorScheme='blue' mr={3} onClick={() => { modal.color === 'danger' ? setModal({ ...modal, show: false }) : navigate('/') }}>
                                         OK
                                     </ButtonUI>
                                 </ModalFooter>
@@ -375,7 +406,7 @@ export default function SignUp() {
                                                 <p style={{ fontSize: '12px' }} className="text-danger text-center mb-2">* Coloque com cuidado as notas das médias das disciplinas específicas</p>
                                             </div>
                                             <div className="mt-3">
-                                                <p className="mb-4">Curso Pretendido (<b>Informática</b>)</p>
+                                                <p className="mb-4">Curso Pretendido</p>
                                                 <hr className="row-global" />
                                                 <div className="text-center d-flex justify-content-between align-items-center">
                                                     <b>1ª Opção</b>
@@ -392,55 +423,31 @@ export default function SignUp() {
                                                 <thead className="text-center">
                                                     <tr>
                                                         <th>-</th>
-                                                        <th>MAT</th>
-                                                        <th>FIS</th>
-                                                        <th>QUIM</th>
+                                                        {subjectApply.map((sa, indexSa) => (                                                            
+                                                            <th key={indexSa}>{sa.code}</th>                                                            
+                                                        ))}                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>7ª</td>
-                                                        <td>
-                                                            <Input registerYup={register3} text="" type="text" name="mat7" placeholder="" _class="signup" handleEvent={handleChange} />
-                                                        </td>
-                                                        <td>
-                                                            <Input registerYup={register3} text="" type="text" name="fis7" placeholder="" _class="signup" handleEvent={handleChange} />
-                                                        </td>
-                                                        <td>
-                                                            <Input registerYup={register3} text="" type="text" name="quim7" placeholder="" _class="signup" handleEvent={handleChange} />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>8ª</td>
-                                                        <td>
-                                                            <Input registerYup={register3} text="" type="text" name="mat8" placeholder="" _class="signup" handleEvent={handleChange} />
-                                                        </td>
-                                                        <td>
-                                                            <Input registerYup={register3} text="" type="text" name="fis8" placeholder="" _class="signup" handleEvent={handleChange} />
-                                                        </td>
-                                                        <td>
-                                                            <Input registerYup={register3} text="" type="text" name="quim8" placeholder="" _class="signup" handleEvent={handleChange} />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>9ª</td>
-                                                        <td>
-                                                            <Input registerYup={register3} text="" type="text" name="mat9" placeholder="" _class="signup" handleEvent={handleChange} />
-                                                        </td>
-                                                        <td>
-                                                            <Input registerYup={register3} text="" type="text" name="fis9" placeholder="" _class="signup" handleEvent={handleChange} />
-                                                        </td>
-                                                        <td>
-                                                            <Input registerYup={register3} text="" type="text" name="quim9" placeholder="" _class="signup" handleEvent={handleChange} />
-                                                        </td>
-                                                    </tr>
+                                                    {
+                                                        [7, 8, 9].map((grade, index) => (
+                                                            <tr key={index}>
+                                                                <td>{grade}ª</td>
+                                                                {subjectApply.map((sa, indexSa) => (
+                                                                    <td key={grade + indexSa}>
+                                                                        <Input text="" type="text" name="notes" placeholder="" _class="signup" handleEvent={(e: any) => handleNotes(e, index, indexSa)} />
+                                                                    </td>
+                                                                ))}
+                                                            </tr>
+                                                        ))
+                                                    }
                                                 </tbody>
                                             </table>
                                         </div>
                                         {(Object.keys(errors3).length > 0 || error.show) && <Stack spacing={3}>
                                             <Alert status='error' className="text-center">
                                                 <><AlertIcon />
-                                                    {errors3.school?.message || 'Campo deve ser uma nota entre 0 a 20'}
+                                                    {errors3.school?.message || error.message}
                                                 </>
                                             </Alert>
                                         </Stack>}
@@ -469,7 +476,7 @@ export default function SignUp() {
                                         <Alert status='error' className="text-center">
                                             <><AlertIcon />
                                                 {error.message}
-                                            </> 
+                                            </>
                                         </Alert>
                                     </Stack>}
                                     <div className="d-flex justify-content-between m-2">
