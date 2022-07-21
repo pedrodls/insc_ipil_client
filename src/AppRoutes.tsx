@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Outlet, Route, Routes } from 'react-router-dom
 import { Index, Login, SignUp, Home, Information, AttachPayment, Contact, Dashboard, UserAccount, DashboardPage, GuidesPage } from './environments/elements'
 import ProtectedRoutes, { SuperProtectedRoutes, UnProtectedRoutes } from './ProtectedRoutes'
 
-function AppRoutes() {
+function AppRoutes({ type_account }: any) {
 
   return (
 
@@ -35,8 +35,8 @@ function AppRoutes() {
 
         <Route element={<ProtectedRoutes />} >
 
-          <Route path="/dashboard" element={<DashboardPage />}>
-            <Route path="guides" element={<GuidesPage />} />
+          <Route path="/dashboard" element={<DashboardPage type_account={type_account} />}>
+            <Route path="guides" element={<GuidesPage type_account={type_account} />} />
             <Route path="validate_payment" element={<Information />} />
             <Route path="attach_valid_payment" element={<AttachPayment />} />
           </Route>

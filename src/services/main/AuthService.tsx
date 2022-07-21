@@ -9,21 +9,20 @@ export class AuthService extends AppService {
   localStorageService = new LocalStorageService()
 
   constructor() {
-    super('users')
+    super('main/users')
   }
 
   public async authenticate(o: UserModel) {
-    
     let service = await AxiosConfig.post<UserModel>(this.url + '/authenticate', o)
 
     this.loggedIn(service.data)
 
     return service;
-    
+
   }
 
-  private loggedIn(data: UserModel){
-    
+  private loggedIn(data: UserModel) {
+
     switch (parseInt(data.status)) {
       case 200:
         this.localStorageService.initSession(data);
@@ -85,5 +84,5 @@ export class AuthService extends AppService {
   
 
   */
-  
+
 }

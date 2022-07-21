@@ -2,39 +2,35 @@ import { Navigate, Outlet } from "react-router-dom";
 import { AuthService } from "./services/main/AuthService";
 import { LocalStorageService } from "./services/main/LocalStorageService";
 
-export const userAuth = () => {
-
-    let localStorage = new LocalStorageService().getSession()
-    
-    return localStorage && localStorage.token ;
-}
-
 export const userAuthAccount = () => {
 
-    let localStorage = new LocalStorageService().getSession()
-    
-    return localStorage && localStorage.token && localStorage.authAccount;
+    let localStorage: any = new LocalStorageService().getSession()
+
+    if (localStorage)
+        return localStorage.token && localStorage.user.authAccount;
+
+    return false
 }
 
 export const SuperProtectedRoutes = () => {
 
-    const isAuth =  userAuthAccount();
+    const isAuth = userAuthAccount();
 
-    return isAuth ? <Outlet /> :  <Navigate to='/' />;
+    return isAuth ? <Outlet /> : <Navigate to='/' />;
 
 }
 
 export const UnProtectedRoutes = () => {
 
-    const isAuth =  userAuthAccount();
+    const isAuth = userAuthAccount();
 
-    return !isAuth ? <Outlet /> : <Navigate to='/dashboard' />;
+    return isAuth ? <Navigate to='/dashboard' /> : <Outlet />;
 
 }
 
-const ProtectedRoutes =  () => {
+const ProtectedRoutes = () => {
 
-    const isAuth =  userAuthAccount();
+    const isAuth = userAuthAccount();
 
     return isAuth ? <Outlet /> : <Navigate to='/' />;
 }

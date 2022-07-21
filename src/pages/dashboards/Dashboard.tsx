@@ -1,33 +1,56 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Footer, Navbar } from "../../environments/elements";
+import { getAccount } from "../../environments/functions";
 import { UserDashboardRoutes } from "../../environments/routes";
 
-import styles from './Dashboard.module.scss'
 
+export function DashboardPage({ type_account }: any) {
 
-export function DashboardPage() {
-
+    const [data, setData] = useState<boolean>(false)
 
     const navigate = useNavigate()
 
+    const fetchData = async () => {
+
+        const _accountName = await getAccount()
+
+        _accountName || type_account ? setData(true) : setData(false)
+
+        if (window.location.pathname == '/dashboard') {
+            
+            setData(false)
+
+            navigate(UserDashboardRoutes[type_account || _accountName])
+        }
+
+    }
+
     useEffect(() => {
 
-        //Redirecionar na rota que tem acesso, ou seja, a que tem sessão!
-
-        if(window.location.pathname == '/dashboard')
-            navigate(UserDashboardRoutes[0])
+        fetchData()
 
     }, [])
 
     return <>
 
+        {
+            data ? 
 
-        <Navbar isSignUp={true} />
+            <>
+                <Navbar isSignUp={true} />
 
-        <Outlet />
+                <Outlet />
 
-        <Footer />
+                <Footer />
+
+            </>
+
+            : 
+
+            <>
+            </>
+        }
 
     </>
 
