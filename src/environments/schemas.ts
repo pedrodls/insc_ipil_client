@@ -32,9 +32,19 @@ const schemaStage3 = yup.object().shape({
     cmbCourse2: yup.string(),    
 });
 
+
+//----------------- Guides-------------------------------
+const schemaGuide = yup.object().shape({    
+    rupe: yup.string().matches(/^[0-9]{20,}$/, 'Rupe no Formato Incorrecto').required('Campo Rupe é Obrigatório'),
+    code_solicitation: yup.string().matches(/^[0-9]{15,}$/, 'Nº de Solicitação no Formato Incorrecto').required('Campo Nº de Solicitação é Obrigatório'),
+    expireIn: yup.date().max(moment().add(3, 'months').calendar(), 'Data máxima no Formato Incorrecto').min(moment().format('YYYY-MM-DD'), 'Data Mínima no Formato Incorrecto').required('Data de Expiração é Obrigatório'),
+    areaId: yup.string()
+});
+
 //schemaStage4.validate({notes: '-2'}).then(value => console.log('1 - 1', value)).catch(err => console.log('2 - 2', err));      
 export {
     schemaStage1,
     schemaStage2,
     schemaStage3,
+    schemaGuide
 }
