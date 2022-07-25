@@ -9,6 +9,7 @@ import { LocalStorageService } from '../services/main/LocalStorageService';
 import { TypeAccountService } from './../services/main/TypeAccountService';
 
 import { SubjectApplyService } from '../services/main/Subject-Apply';
+import {GuideService} from '../services/main/GuideService';
 
 export { AppService }
 
@@ -17,7 +18,8 @@ export {
     AreaService, TownService,
     CourseService, LocalStorageService,
     TypeAccountService, AuthService,
-    SubjectApplyService
+    SubjectApplyService,
+    GuideService
 
 };
 
