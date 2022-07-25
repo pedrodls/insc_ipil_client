@@ -1,7 +1,8 @@
 
 
 export const UserDashboardRoutes: any = {
-    guide: "guides"
+    guide: "guides",
+    validate: "validate_payment"
 }
 
 export const SuperUserDashboardsRoutes = [
