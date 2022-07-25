@@ -1,8 +1,17 @@
-import { FaPhone, FaEnvelope, FaMap, FaFacebook, FaWhatsapp, FaInstagram, FaTwitter, FaGlobe } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaPhone, FaEnvelope, FaMap, FaFacebook, FaWhatsapp, FaInstagram, FaTwitter, FaGlobe, FaEnvelopeOpen } from 'react-icons/fa';
 import styles from './Footer.module.scss';
+import { Input, Button } from '../../environments/elements';
 import __VARIABLES__ from '../../environments/variables';
 
 export default function Footer() {
+    const [spinner, setSpinner] = useState(false);
+    const handleChange = (e: any) => {
+
+    }
+    const handleSubmit = async () => {
+
+    }
     return (<>
         <footer className={styles.footer}>
             <div className={`${styles.links} container`}>
@@ -24,7 +33,15 @@ export default function Footer() {
                             <li><a className="d-flex align-items-center"><FaGlobe />&nbsp;&nbsp;Gestão de Matrículas</a></li>
                         </ul>
                     </div>
-                    <div className={`${styles.socialMedia} col-lg-4 col-md-12 col-xs-12`}>
+                    <div className={`${styles.newsletter} col-lg-4 col-md-12 col-xs-12`}>
+                        <h1>Newsletter</h1>
+                        <div>
+                            <Input text="" type="email" name="email" placeholder="Insira seu Email" _class="signup" required={true} handleEvent={handleChange} />
+                            <Button text={spinner ? (<><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Aguarde...</>) : 'Assinar'}
+                                type="submit" _class="newsletter" handle={handleSubmit} disabled={spinner} />
+                        </div>
+                    </div>
+                    <div className={`${styles.socialMedia} col-lg-12 col-md-12 col-xs-12`}>
                         <h1>Redes Sociais</h1>
                         <ul className="d-flex">
                             <li className={`${styles.icons}`}><a><FaFacebook /></a></li>
@@ -37,7 +54,7 @@ export default function Footer() {
             </div>
             <div className={styles.assign}>
                 <p>
-                    @2022 IPIL feito IPIL | All rights reserved
+                    @{__VARIABLES__._creation_year_} {__VARIABLES__._institute_short_name_} feito {__VARIABLES__._institute_short_name_} | All rights reserved
                 </p>
             </div>
         </footer>
