@@ -17,7 +17,7 @@ export default function Input({ registerYup=() => {}, defaultValue = "", readOnl
         </>
     )
 }
-export function InputDate({ registerYup=() => {}, minDate="", maxDate=moment().format('YYYY-MM-DD'), defaultValue = "", text = "", name = "", _class = "", title = "",handleEvent = ()=>{}}: any) {            
+export function InputDate({ registerYup=() => {}, minDate="", maxDate="", defaultValue = "", text = "", name = "", _class = "", title = "",handleEvent = ()=>{}}: any) {            
     const [value, setValue] = useState<string>(defaultValue);    
     const handleChange = (e: any) => {
         setValue(e.target.value);
