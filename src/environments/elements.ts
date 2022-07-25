@@ -20,6 +20,9 @@ import UserAccount from "../pages/Admin/Users/UserAccount"
 
 //Layouts Documents
 import Navbar from '../components/navbar/Navbar';
+import DashboardNavbar from '../components/navbar/DashboardNavbar';
+import LoggedAccountNavbar from '../components/navbar/Logged-account-navbar/LoggedAccountNavbar';
+
 import Footer from '../components/footer/Footer';
 import Form from '../components/form/Form';
 import Input from '../components/input/Input';
@@ -30,15 +33,16 @@ import Select from '../components/select/Select';
 import Spinner from '../components/spinner/Spinner';
 import { SpinnerSignUp } from '../components/spinner/Spinner';
 
-import { CardSignUp, CardGuides } from '../components/card/Card';
+import { CardSignUp, CardGuides, ValidatePaymentCard } from '../components/card/Card';
+import { ValidatePaymentPage } from "../pages/dashboards/validate-payment/ValidatePayment";
 
 //---------------------------------------------------------------
 
 export { UserAccount };
 
-export { Index, Login, SignUp, Information, AttachPayment, Contact, Home, GuidesPage, DashboardPage };
+export { Index, Login, SignUp, Information, AttachPayment, Contact, Home, GuidesPage, DashboardPage, ValidatePaymentPage };
 
 export { Dashboard };
 
-export { Navbar, Form, Input, InputDate, InputFile, Button, Select, Footer, CardSignUp, Spinner, SpinnerSignUp, CardGuides }
+export { Navbar, Form, Input, InputDate, InputFile, Button, Select, Footer, CardSignUp, Spinner, SpinnerSignUp, CardGuides, LoggedAccountNavbar, DashboardNavbar, ValidatePaymentCard }
 

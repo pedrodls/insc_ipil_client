@@ -24,7 +24,7 @@ export function GuidesPage({ type_account }: any) {
     const [message, setMessage] = useState<any>({ show: false, type: 'error', message: '' })
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({ resolver: yupResolver(schemaGuide) });
-    
+
     useEffect(() => {
 
         (async function () {
@@ -75,7 +75,6 @@ export function GuidesPage({ type_account }: any) {
         {
             data ? <>
                 <div className={styles['container-fluid']}>
-
                     <div className="row mb-4">
                         <div className="col-md-12 d-flex justify-content-center">
                             <CardGuides>
@@ -113,7 +112,6 @@ export function GuidesPage({ type_account }: any) {
                                     </Stack>}
                                 </form>
                             </CardGuides>
-
                         </div>
                     </div>
                 </div>

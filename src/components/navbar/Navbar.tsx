@@ -22,7 +22,7 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
 
             setScrollTop(e.target.documentElement.scrollTop);
 
-            if (scrollTop > 10)
+            if (scrollTop > 100)
                 setScrolling(true);
             else
                 setScrolling(false);

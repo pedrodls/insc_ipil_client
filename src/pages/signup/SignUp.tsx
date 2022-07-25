@@ -46,6 +46,7 @@ function ButtonChoose(index: number, setIndex: any) {
 }
 
 export default function SignUp() {
+    
     const { onClose } = useDisclosure()
     const navigate = useNavigate();
     //
