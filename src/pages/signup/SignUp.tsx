@@ -10,7 +10,7 @@ import { Carousel } from 'react-bootstrap';
 import { schemaStage1, schemaStage2, schemaStage3 } from '../../environments/schemas';
 import { Alert, AlertIcon, Stack, Button as ButtonUI } from '@chakra-ui/react';
 import moment from 'moment';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 //services request
 import { AreaService, TownService, CourseService, AuthService, SubjectApplyService } from '../../environments/services';
 //models request
@@ -46,6 +46,7 @@ function ButtonChoose(index: number, setIndex: any) {
 }
 
 export default function SignUp() {
+    
     const { onClose } = useDisclosure()
     const navigate = useNavigate();
     //
@@ -87,7 +88,7 @@ export default function SignUp() {
 
             await townServices.getAll().then(data => setTowns(data.data.data)).catch(e => console.log(e));
             await subjectApplyServices.allActive().then(data => console.log(data.data.data)).catch(e => console.log(e));
-            
+
             setApresentation({ ...apresentation, show1: true });
         })();
     }, []);
@@ -143,7 +144,7 @@ export default function SignUp() {
         const response = await authServices.signUp({ ...signup, scheduleBI: filesUploaded[0], scheduleCertificado: filesUploaded[1] }).then(data => data.data).catch(e => e.response.data);
         console.log(response);
         setSpinner(() => [false, false]);
-        setModal({message: response.message, show: true, color: response.error ? 'danger' : 'success'});        
+        setModal({ message: response.message, show: true, color: response.error ? 'danger' : 'success' });
     }
 
     const handleSelect = (e: any) => {
@@ -196,7 +197,7 @@ export default function SignUp() {
                                     {modal.message}
                                 </ModalBody>
                                 <ModalFooter className="text-center">
-                                    <ButtonUI colorScheme='blue' mr={3} onClick={() => {modal.color === 'danger' ? setModal({...modal, show: false}) : navigate('/')}}>
+                                    <ButtonUI colorScheme='blue' mr={3} onClick={() => { modal.color === 'danger' ? setModal({ ...modal, show: false }) : navigate('/') }}>
                                         OK
                                     </ButtonUI>
                                 </ModalFooter>
@@ -469,7 +470,7 @@ export default function SignUp() {
                                         <Alert status='error' className="text-center">
                                             <><AlertIcon />
                                                 {error.message}
-                                            </> 
+                                            </>
                                         </Alert>
                                     </Stack>}
                                     <div className="d-flex justify-content-between m-2">
