@@ -1,4 +1,13 @@
-
+.newsletter{
+    width: 100% !important;
+    color: #fff !important;
+    padding: 10px 20px !important;
+    box-shadow: 0 2px 28px 0 rgb(0 0 0 / 9%);
+    border-radius: 3px;
+    border: none;
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
 .defaultDanger,
 .defaultSuccess,
 .defaultYellow {
@@ -21,7 +30,7 @@
     border-color: #dc3545 !important;
 }
 
-.defaultDanger:hover {
+.defaultDanger:hover, .newsletter:hover {
     background-color: #bb2d3b !important;
     border-color: #b02a37 !important;
 }
