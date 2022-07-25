@@ -1,4 +1,5 @@
 const __VARIABLES__ = {
+    _creation_year_: "2022",
     _institute_name_: "INSTITUTO POLITÉCNICO INDUSTRIAL DE LUANDA",
     _institute_short_name_: "IPIL",
     _orange_default_btn_: "orange",
