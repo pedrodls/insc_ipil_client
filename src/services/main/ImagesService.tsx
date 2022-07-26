@@ -6,7 +6,7 @@ import { IService } from "../ServiceInterface";
 export class ImagesService extends AppService implements IService<any>{
 
   constructor() {
-    super('images')
+    super('main/images')
   }
 
   public async all(query?: any) {
