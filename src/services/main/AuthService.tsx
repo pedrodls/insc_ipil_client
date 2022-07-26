@@ -13,6 +13,7 @@ export class AuthService extends AppService {
   }
 
   public async authenticate(o: UserModel) {
+    
     let service = await AxiosConfig.post<UserModel>(this.url + '/authenticate', o)
 
     this.loggedIn(service.data)
