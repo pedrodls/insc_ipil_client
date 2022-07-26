@@ -1,3 +1,4 @@
+import { DefaulTable } from './../components/table/Table';
 //----------------------Pages Documents--------------------------
 
 import Index from "../pages/index/Index";
@@ -35,14 +36,15 @@ import { SpinnerSignUp } from '../components/spinner/Spinner';
 
 import { CardSignUp, CardGuides, ValidatePaymentCard } from '../components/card/Card';
 import { ValidatePaymentPage } from "../pages/dashboards/validate-payment/ValidatePayment";
+import { ValidateAreaPaymentPage } from "../pages/dashboards/validate-area-payment/ValidateAreaPayment";
 
 //---------------------------------------------------------------
 
 export { UserAccount };
 
-export { Index, Login, SignUp, Information, AttachPayment, Contact, Home, GuidesPage, DashboardPage, ValidatePaymentPage };
+export { Index, Login, SignUp, Information, AttachPayment, Contact, Home, GuidesPage, DashboardPage, ValidatePaymentPage, ValidateAreaPaymentPage };
 
 export { Dashboard };
 
-export { Navbar, Form, Input, InputDate, InputFile, Button, Select, Footer, CardSignUp, Spinner, SpinnerSignUp, CardGuides, LoggedAccountNavbar, DashboardNavbar, ValidatePaymentCard }
+export { Navbar, Form, Input, InputDate, InputFile, Button, Select, Footer, CardSignUp, Spinner, SpinnerSignUp, CardGuides, LoggedAccountNavbar, DashboardNavbar, ValidatePaymentCard, DefaulTable }
 
