@@ -5,13 +5,17 @@ import { Input, Button } from '../../environments/elements';
 import __VARIABLES__ from '../../environments/variables';
 
 export default function Footer() {
+
     const [spinner, setSpinner] = useState(false);
+    
     const handleChange = (e: any) => {
 
     }
+    
     const handleSubmit = async () => {
 
     }
+    
     return (<>
         <footer className={styles.footer}>
             <div className={`${styles.links} container`}>
@@ -59,4 +63,6 @@ export default function Footer() {
             </div>
         </footer>
     </>)
+
+
 }
