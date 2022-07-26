@@ -14,30 +14,29 @@ export function ValidatePaymentPage({ type_account }: any) {
 
     const [data, setData] = useState<boolean>(false)
 
+    const [fetchComplete, setFetchComplete] = useState<boolean>(false)
+
     const [areas, setAreas] = useState<Array<AreaModel>>([]);
 
     const areaServices = new AreaService();
-
-    const [selected, setSelected] = useState<any>({}); //elementos selecionados
 
     const fetchData = async () => {
 
         const _session_account = await getAccount()
 
-        if (_session_account == __VARIABLES__._validate_payment_account) {
+        if (_session_account.toLowerCase() === __VARIABLES__._validate_payment_account.toLowerCase()) {
 
             setData(true)
 
-            await areaServices.getAll().then(data => {
+            const _areas: any = await areaServices.getAll().then(data => data.data.data).catch(e => []);
 
-                setAreas(data.data.data);
+            setAreas(_areas);
 
-                selected.area = data.data.data.length > 0 ? data.data.data[0].id : '';
+            setFetchComplete(true);
 
-            }).catch(e => console.log(e));
         }
         else
-            setData(true)
+            setData(false)
 
     }
 
@@ -59,7 +58,7 @@ export function ValidatePaymentPage({ type_account }: any) {
 
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <Heading as='h1' size='xl'>
+                                        <Heading as='h1' size='lg'>
                                             <p className="title mb-5">
                                                 Secção de <br /> validação de inscrição online
                                             </p>
@@ -68,18 +67,13 @@ export function ValidatePaymentPage({ type_account }: any) {
                                 </div>
 
                                 <div className="row">
-                                    <div className="col-md-6">
 
-                                        {
-                                            areas.length
-                                        }
                                         {
 
                                             areas.map((data, index) => {
-                                                return (<ValidatePaymentCard />)
+                                                return (<ValidatePaymentCard data={data} key={index} />)
                                             })
                                         }
-                                    </div>
 
                                 </div>
 
