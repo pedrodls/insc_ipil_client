@@ -13,6 +13,7 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom'
 
 export function GuidesPage({ type_account }: any) {
+
     let navigate = useNavigate();
 
     const areaServices = new AreaService();
