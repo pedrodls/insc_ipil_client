@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Outlet, Route, Routes } from 'react-router-dom'
-import { Index, Login, SignUp, Home, Information, AttachPayment, Contact, Dashboard, UserAccount, DashboardPage, GuidesPage, ValidatePaymentPage, ValidateAreaPaymentPage } from './environments/elements'
+import { Index, Login, SignUp, Home, Information, Contact, Dashboard, UserAccount, DashboardPage, GuidesPage, ValidatePaymentPage, ValidateAreaPaymentPage, AttachValidPaymentPage } from './environments/elements'
 import ProtectedRoutes, { SuperProtectedRoutes, UnProtectedRoutes } from './ProtectedRoutes'
 
 function AppRoutes({ type_account }: any) {
@@ -21,32 +21,34 @@ function AppRoutes({ type_account }: any) {
         <Route element={<UnProtectedRoutes />} >
 
           <Route path="/" element={<Index />}>
+
             <Route path="" element={<Home />} />
             <Route path="/informations" element={<Information />} />
-            <Route path="/attach_payment" element={<AttachPayment />} />
             <Route path="/contacts" element={<Contact />} />
+            <Route path="attach" element={<AttachValidPaymentPage />} />
+
           </Route>
 
           <Route path="/login" element={<Login />} />
 
           <Route path="/signup" element={<SignUp />} />
 
+
         </Route>
 
         <Route element={<ProtectedRoutes />} >
 
           <Route path="/dashboard" element={<DashboardPage type_account={type_account} />}>
-            
+
             <Route path="guides" element={<GuidesPage type_account={type_account} />} />
-            
+
             <Route path="validate_payment" element={<ValidatePaymentPage type_account={type_account} />} />
 
             <Route path="validate_payment/:id" element={<ValidateAreaPaymentPage type_account={type_account} />} />
-              
-              <Route path="attach_valid_payment" element={<AttachPayment />} />
-            </Route>
 
           </Route>
+
+        </Route>
 
       </Routes>
 
