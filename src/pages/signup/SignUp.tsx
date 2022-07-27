@@ -12,7 +12,7 @@ import { Alert, AlertIcon, Stack, Button as ButtonUI } from '@chakra-ui/react';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 //services request
-import { AreaService, TownService, CourseService, AuthService, SubjectApplyService } from '../../environments/services';
+import { AreaService, TownService, CourseService, AuthService, SubjectApplyService, PaymentNoteService } from '../../environments/services';
 //models request
 import { AreaModel, TownModel, CourseModel, SubjectApplyModel } from '../../environments/models';
 
@@ -46,7 +46,7 @@ function ButtonChoose(index: number, setIndex: any) {
 }
 
 export default function SignUp() {
-    
+
     const { onClose } = useDisclosure()
     const navigate = useNavigate();
     //
@@ -56,12 +56,14 @@ export default function SignUp() {
     const townServices = new TownService();
     const courseServices = new CourseService();
     const subjectApplyServices = new SubjectApplyService();
+    const paymentNoteServices = new PaymentNoteService();
 
     const [areas, setAreas] = useState<Array<AreaModel>>([]);
     const [selected, setSelected] = useState<any>({}); //elementos selecionados
     const [towns, setTowns] = useState<Array<TownModel>>([]);
     const [courses, setCourses] = useState<Array<CourseModel>>([]);
     const [subjectApply, setSubjectApply] = useState<Array<SubjectApplyModel>>([]);
+    const [paymentNote, setPaymentNote] = useState<Array<any>>([]);
 
     //---------------------Declaration Session---------------------------------------------------------------
     const [spinner, setSpinner] = useState<Array<boolean>>([false, false]);
@@ -87,6 +89,11 @@ export default function SignUp() {
                 selected.area = data.data.data.length > 0 ? data.data.data[0].id : '';
             }).catch(e => console.log(e));
 
+            await paymentNoteServices.statusArea().then(data => {
+                console.log(data.data);
+                setPaymentNote(data.data);
+            }).catch(e => console.log(e));
+
             await townServices.getAll().then(data => setTowns(data.data.data)).catch(e => console.log(e));
             //pegando as disciplinas e colocando no state
             let response = await subjectApplyServices.allActive().then(data => data.data.data).catch(e => console.log(e));
@@ -105,7 +112,14 @@ export default function SignUp() {
 
     //----------------------Function Session----------------------------------------
     const handleSearchGuide = async () => {
+        //verificando se existe guias para essa área        
+        if(!paymentNote.filter(p => p.id == selected.area)[0].status){
+            setModal({ message: 'Terminaram as Guias de Pagamento para a área Selecionada. \nPor Favor Aguarde!', show: true, color: 'danger' });            
+            return false;
+        }
+
         setSpinner(() => [true, false]);
+        //todos os cursos dessa área
         await courseServices.allByAreaId(selected.area).then(data => { setCourses(data.data.data) }).catch(e => console.log(e));
 
         setSpinner(() => [false, false])
@@ -127,16 +141,16 @@ export default function SignUp() {
                 data.cmbCourse1 = courses.length === 0 ? '' : courses[0].id;
             if (courses.map(c => c.id).indexOf(data.cmbCourse2) < 0)
                 data.cmbCourse2 = courses.length === 0 ? '' : courses[0].id;
-            
+
             let op = false;
-            for(let note of notes){
+            for (let note of notes) {
                 //avaliando notas de cada classe
-                if(isNaN(note.values[0]) || isNaN(note.values[1]) || isNaN(note.values[2]) || (+note.values[0] < 0 || +note.values[0] > 20) || (+note.values[1] < 0 || +note.values[1] > 20) || (+note.values[2] < 0 || +note.values[2] > 20 || note.values[0].trim().length === 0 || note.values[1].trim().length === 0 || note.values[2].trim().length === 0)){
+                if (isNaN(note.values[0]) || isNaN(note.values[1]) || isNaN(note.values[2]) || (+note.values[0] < 0 || +note.values[0] > 20) || (+note.values[1] < 0 || +note.values[1] > 20) || (+note.values[2] < 0 || +note.values[2] > 20 || note.values[0].trim().length === 0 || note.values[1].trim().length === 0 || note.values[2].trim().length === 0)) {
                     op = true
                     break;
                 }
             }
-            if(op){
+            if (op) {
                 setError({ show: true, color: '', message: 'Campo deve ser uma nota entre 0 a 20' });
                 return false;
             }
@@ -155,13 +169,13 @@ export default function SignUp() {
         //reset();
     }
 
-    const handleChange = (e: any) => {        
+    const handleChange = (e: any) => {
         if (e.target.name === 'birthdate')
             setBirthdateCalc(moment().diff(e.target.value, 'years').toString()); //cálculo de idade            
 
         setError(new ERROR_STATE)
     } //método executado quando input muda
-    const handleNotes = (e: any, grade: number, subjectOrder: number) => {        
+    const handleNotes = (e: any, grade: number, subjectOrder: number) => {
         notes[subjectOrder].values[grade] = e.target.value;
         setError(new ERROR_STATE)
     }
@@ -172,8 +186,7 @@ export default function SignUp() {
             return false;
         }
         setSpinner(() => [false, true]);
-        const response = await authServices.signUp({ ...signup, scheduleBI: filesUploaded[0], scheduleCertificado: filesUploaded[1] }).then(data => data.data).catch(e => e.response.data);
-        console.log(response);
+        const response = await authServices.signUp({ ...signup, scheduleBI: filesUploaded[0], scheduleCertificado: filesUploaded[1] }).then(data => data.data).catch(e => e.response.data);        
         setSpinner(() => [false, false]);
         setModal({ message: response.message, show: true, color: response.error ? 'danger' : 'success' });
     }
@@ -278,31 +291,13 @@ export default function SignUp() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td className="text-center">1</td>
-                                                    <td>Construção Civil</td>
-                                                    <td className="text-center text-danger">indisponível</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="text-center">2</td>
-                                                    <td>Electricidade</td>
-                                                    <td className="text-center text-success">disponível</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="text-center">3</td>
-                                                    <td>Informática</td>
-                                                    <td className="text-center text-success">disponível</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="text-center">4</td>
-                                                    <td>Química</td>
-                                                    <td className="text-center text-success">disponível</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="text-center">5</td>
-                                                    <td>Mecânica</td>
-                                                    <td className="text-center text-danger">indisponível</td>
-                                                </tr>
+                                                {paymentNote.map((p, key) => (
+                                                    <tr key={key}>
+                                                        <td className="text-center">{key+1}</td>
+                                                        <td>{p.name}</td>
+                                                        <td className={`text-center ${p.status ? 'text-success':'text-danger'}`}>{p.status ? 'Disponível':'Indisponível'}</td>
+                                                    </tr>
+                                                ))}
                                             </tbody>
                                         </table>
                                     </>}
@@ -424,9 +419,9 @@ export default function SignUp() {
                                                 <thead className="text-center">
                                                     <tr>
                                                         <th>-</th>
-                                                        {subjectApply.map((sa, indexSa) => (                                                            
-                                                            <th key={indexSa}>{sa.code}</th>                                                            
-                                                        ))}                                                        
+                                                        {subjectApply.map((sa, indexSa) => (
+                                                            <th key={indexSa}>{sa.code}</th>
+                                                        ))}
                                                     </tr>
                                                 </thead>
                                                 <tbody>
