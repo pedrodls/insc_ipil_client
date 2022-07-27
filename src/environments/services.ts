@@ -12,6 +12,7 @@ import { TypeAccountService } from './../services/main/TypeAccountService';
 
 import { SubjectApplyService } from '../services/main/Subject-Apply';
 import {GuideService} from '../services/main/GuideService';
+import {PaymentNoteService} from '../services/main/PaymentNote';
 
 export { AppService }
 
@@ -21,7 +22,7 @@ export {
     CourseService, LocalStorageService,
     TypeAccountService, AuthService,
     SubjectApplyService,
-    GuideService, ImagesService, ApplysService
+    GuideService, ImagesService, ApplysService, PaymentNoteService
 
 };
 
