@@ -11,7 +11,7 @@ export const DefaulTable = ({ data }: any) => {
 
         <TableContainer>
             <Table variant='simple' className={style.table}>
-                <TableCaption>Incritos que não fizeram o pagamento</TableCaption>
+                <TableCaption>Incritos que fizeram o pagamento</TableCaption>
                 <Thead>
                     <Tr>
                         <Th>BI</Th>
