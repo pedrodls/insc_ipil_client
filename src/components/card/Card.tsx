@@ -39,7 +39,7 @@ export function ValidatePaymentCard(data: any) {
 
     return (
 
-        <div className="col col-sm-4 col-md-3 card m-2 p-0">
+        <div className="col-sm-4 col-md-3 card m-2 p-0">
             <div className="card-body">
                 <Text fontSize='xl' fontWeight='bold'>
                     {data.data.name}
