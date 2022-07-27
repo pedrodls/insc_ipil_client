@@ -36,7 +36,7 @@ const schemaStage3 = yup.object().shape({
 //----------------- Guides-------------------------------
 const schemaGuide = yup.object().shape({    
     rupe: yup.string().matches(/^[0-9]{20,}$/, 'Rupe no Formato Incorrecto').required('Campo Rupe é Obrigatório'),
-    code_solicitation: yup.string().matches(/^[0-9]{15,}$/, 'Nº de Solicitação no Formato Incorrecto').required('Campo Nº de Solicitação é Obrigatório'),
+    code_solicitation: yup.string().matches(/^[0-9]{11,}$/, 'Nº de Solicitação no Formato Incorrecto').required('Campo Nº de Solicitação é Obrigatório'),
     expireIn: yup.date().max(moment().add(3, 'months').calendar(), 'Data máxima no Formato Incorrecto').min(moment().format('YYYY-MM-DD'), 'Data Mínima no Formato Incorrecto').required('Data de Expiração é Obrigatório'),
     areaId: yup.string()
 });
