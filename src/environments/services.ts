@@ -1,3 +1,4 @@
+import { ApplysService } from './../services/main/ApplysService';
 import { ImagesService } from './../services/main/ImagesService';
 import { AppService } from "../services/AppService"; //main service
 import { AuthService } from '../services/main/AuthService';
@@ -20,7 +21,7 @@ export {
     CourseService, LocalStorageService,
     TypeAccountService, AuthService,
     SubjectApplyService,
-    GuideService, ImagesService
+    GuideService, ImagesService, ApplysService
 
 };
 
