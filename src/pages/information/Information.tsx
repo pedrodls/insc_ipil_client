@@ -21,7 +21,7 @@ export default function Information() {
                 <div className={styles.container + " container"}>
                     <div className="row">
                         <div className="col-md-12 text-center">
-                            <Heading as='h1' size='3xl'>
+                            <Heading as='h1' size='2xl'>
                                 <h1 className="title mb-5 mt-5">
                                     Sector das Informações
                                 </h1>
@@ -31,7 +31,7 @@ export default function Information() {
                 </div>
             </div>
             <div style={{ backgroundColor: '#fff', height: '40vh' }}>
-                Informations
+                ..... 
             </div>
         </>
     )
