@@ -11,15 +11,20 @@ export function DashboardPage({ type_account }: any) {
 
     const navigate = useNavigate()
 
+    const location = useLocation()
+
     const fetchData = async () => {
 
         const _accountName = await getAccount()
 
         if (window.location.pathname == '/dashboard') {
 
+            setData(true)
+
             navigate(UserDashboardRoutes[type_account || _accountName])
 
-        }
+        } else
+            setData(false)
 
     }
 
@@ -27,7 +32,7 @@ export function DashboardPage({ type_account }: any) {
 
         fetchData()
 
-    }, [])
+    }, [location])
 
     return <>
 
@@ -35,7 +40,6 @@ export function DashboardPage({ type_account }: any) {
 
         <Outlet />
 
-        <Footer />
 
     </>
 

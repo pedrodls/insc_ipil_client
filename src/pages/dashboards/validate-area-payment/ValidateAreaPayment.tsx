@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 
-import { CardGuides, ValidatePaymentCard } from '../../../environments/elements'
+import { CardGuides, DefaulTable } from '../../../environments/elements'
 import { getAccount } from '../../../environments/functions'
 import __VARIABLES__ from '../../../environments/variables'
 
 import { AreaModel } from '../../../environments/models';
 
-import styles from './ValidatePayment.module.scss'
-import { AreaService, ApplysService } from '../../../environments/services';
-import { Heading } from '@chakra-ui/react';
+import styles from './ValidateAreaPayment.module.scss'
+import { AreaService } from '../../../environments/services';
+import { Badge, Heading } from '@chakra-ui/react';
 
-export function ValidatePaymentPage({ type_account }: any) {
+export function ValidateAreaPaymentPage({ type_account }: any) {
 
     const [data, setData] = useState<boolean>(false)
 
@@ -19,8 +19,6 @@ export function ValidatePaymentPage({ type_account }: any) {
     const [areas, setAreas] = useState<Array<AreaModel>>([]);
 
     const areaServices = new AreaService();
-
-    const applysServices = new ApplysService();
 
     const fetchData = async () => {
 
@@ -31,10 +29,6 @@ export function ValidatePaymentPage({ type_account }: any) {
             setData(true)
 
             const _areas: any = await areaServices.getAll().then(data => data.data.data).catch(e => []);
-
-            const _applys: any = await applysServices.getApplys().then(data => data.data).catch(e => []);
-
-            console.log(_applys)
 
             setAreas(_areas);
 
@@ -60,27 +54,29 @@ export function ValidatePaymentPage({ type_account }: any) {
 
                     <div className="row">
                         <div className="col-md-12 d-flex justify-content-center">
-                            
                             <CardGuides>
 
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <Heading as='h1' size='lg' fontSize='1.5em'>
+                                        <Heading as='h2' size='lg'>
                                             <p className="title mb-5">
-                                                Secção de <br /> validação de inscrição online
+                                                Área de Formação de Informática
+                                                <Badge ml='1' fontSize='1em' colorScheme='orange'>
+                                                    +14
+                                                </Badge>
                                             </p>
+
                                         </Heading>
+
                                     </div>
                                 </div>
 
                                 <div className="row">
+                                    <div className="col-md-12">
 
-                                        {
+                                        <DefaulTable />
 
-                                            areas.map((data, index) => {
-                                                return (<ValidatePaymentCard data={data} key={index} />)
-                                            })
-                                        }
+                                    </div>
 
                                 </div>
 

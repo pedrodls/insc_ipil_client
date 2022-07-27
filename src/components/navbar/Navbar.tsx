@@ -22,7 +22,7 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
 
             setScrollTop(e.target.documentElement.scrollTop);
 
-            if (scrollTop > 100)
+            if (scrollTop > 30)
                 setScrolling(true);
             else
                 setScrolling(false);
@@ -68,8 +68,8 @@ export default function Navbar({ _class = "navbar", isSignUp = false }: any) {
                                 <li className='nav-item me-5' onClick={() => navigate('/informations')}>
                                     Informações
                                 </li>
-                                <li className='nav-item me-5' onClick={() => navigate('/informations')}>
-                                    Validar Inscrição
+                                <li className='nav-item me-5' onClick={() => navigate('/attach')}>
+                                    Comprovar
                                 </li>
                                 <li className='nav-item' onClick={() => navigate('/contacts')}>
                                     Contactar
